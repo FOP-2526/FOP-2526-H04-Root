@@ -2,10 +2,11 @@ package h04.participants;
 
 import fopbot.Robot;
 import fopbot.Direction;
+import h04.Utils;
 
 public abstract class Participant extends Robot {
 
-    protected fopbot.Direction orientation;
+    protected final fopbot.Direction orientation;
 
     public Participant(int x, int y, Direction orientation) {
         super(x, y);
@@ -21,7 +22,20 @@ public abstract class Participant extends Robot {
     2 = Scissors
      */
     public int getFacingRobot(){
-        return 0;
+        if(getX() % 2 == 0){
+            while(getDirection() != Direction.LEFT){
+                turnLeft();
+            }
+        } else{
+            while(getDirection() != Direction.RIGHT){
+                turnLeft();
+            }
+        }
+        int facingRobot = Utils.getFacingRobot(this);
+        while(getDirection() != orientation){
+            turnLeft();
+        }
+        return facingRobot;
     }
 
     public abstract boolean isWinning();
