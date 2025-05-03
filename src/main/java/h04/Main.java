@@ -20,7 +20,7 @@ public class Main {
         World.setSize(5, 5);
         World.setVisible(true);
 
-        // Create at least one Hacking Robot with different positions and both cases for the array shift
+        /*// Create at least one Hacking Robot with different positions and both cases for the array shift
         HackingRobot hackingRobot1 = new HackingRobot(1, 1, true);
         HackingRobot hackingRobot2 = new HackingRobot(2, 2, false);
 
@@ -65,6 +65,6 @@ public class Main {
                 //print the winner robot's coordinates
                 System.out.println("Winner robot coordinates: x: " + winner.getX() + ", y: " + winner.getY());
             }
-        }
+        }*/
     }
 }
