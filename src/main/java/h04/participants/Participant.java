@@ -14,7 +14,9 @@ public abstract class Participant extends Robot {
 
     public abstract void doVictoryDance();
 
-    public abstract int getFacingRobot();
+    public int getFacingRobot(){
+        return 0;
+    }
 
     public abstract boolean isWinning();
 }
