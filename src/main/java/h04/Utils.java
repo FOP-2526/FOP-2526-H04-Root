@@ -24,7 +24,7 @@ public class Utils {
         if(!(checkXCoordinate(x, karelWorld) && checkYCoordinate(y, karelWorld))){
             return -1;
         }
-        List<FieldEntity> entities = karelWorld.getAllFieldEntities();
+        List<FieldEntity> entities = karelWorld.getField(x, y).getEntities();
         Participant found = null;
         for(FieldEntity entity : entities) {
             if(entity instanceof Participant p) {
