@@ -14,6 +14,12 @@ public abstract class Participant extends Robot {
 
     public abstract void doVictoryDance();
 
+    /*
+    -1 = invalid
+    0 = Rock
+    1 = Paper
+    2 = Scissors
+     */
     public int getFacingRobot(){
         return 0;
     }

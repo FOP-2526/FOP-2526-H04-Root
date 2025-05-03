@@ -19,6 +19,13 @@ public class Rock extends Participant{
 
     @Override
     public boolean isWinning() {
-        return false;
+        int facingRobot = getFacingRobot();
+        if(facingRobot == 0){
+            return getX() % 2 == 0;
+        }
+        if(facingRobot == 1){
+            return false;
+        }
+        return true;
     }
 }

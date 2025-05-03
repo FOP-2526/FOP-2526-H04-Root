@@ -27,6 +27,13 @@ public class Paper extends Participant{
 
     @Override
     public boolean isWinning() {
-        return false;
+        int facingRobot = getFacingRobot();
+        if(facingRobot == 1){
+            return getX() % 2 == 0;
+        }
+        if(facingRobot == 2){
+            return false;
+        }
+        return true;
     }
 }
