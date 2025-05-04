@@ -15,6 +15,9 @@ public class Scissors extends Participant{
     @Override
     public boolean isWinning() {
         int facingRobot = getFacingRobot();
+        if(facingRobot < 0){
+            return false;
+        }
         if(facingRobot == 2){
             return getX() % 2 == 0;
         }
