@@ -22,7 +22,7 @@ public abstract class Participant extends Robot {
     2 = Scissors
      */
     public int getFacingRobot(){
-        if(getX() % 2 == 0){
+        if(getX() % 2 == 1){
             while(getDirection() != Direction.LEFT){
                 turnLeft();
             }
