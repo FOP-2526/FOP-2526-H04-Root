@@ -34,9 +34,11 @@ public class Referee {
 
     private Participant[] determineVictors(Participant[] participants){
         Participant[] victors = new Participant[participants.length/2];
+        int victorCount = 0;
         for(int i=0;i< participants.length;i++){
             if(participants[i].isWinning()){
-                victors[i] = participants[i];
+                victors[victorCount] = participants[i];
+                victorCount++;
             }
         }
         return victors;
@@ -46,7 +48,7 @@ public class Referee {
         while(!(participant.isFacingLeft())){
             participant.turnLeft();
         }
-        while(participant.getFacingRobot() < 0){
+        while(participant.getFacingRobot(Direction.LEFT) < 0 && participant.isFrontClear()){
             participant.move();
         }
         while(participant.getDirection() != participant.getOrientation()){
@@ -67,13 +69,13 @@ public class Referee {
     }
 
     private void arrangeParticipants(Participant[] participants){
-        for(int i=0;i< participants.length;i++){
+        ascend(participants);
+        for(int i=0;i<participants.length;i++){
             moveUp(participants[i]);
         }
-        ascend(participants);
     }
 
-    private void doRound(){
+    public void doRound(){
         Participant[] victors = determineVictors(participants);
         arrangeParticipants(victors);
         participants = victors;

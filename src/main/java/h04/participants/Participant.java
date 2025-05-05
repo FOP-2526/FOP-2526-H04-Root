@@ -38,6 +38,17 @@ public abstract class Participant extends Robot {
         return facingRobot;
     }
 
+    public int getFacingRobot(Direction orientation){
+        while(getDirection() != orientation){
+            turnLeft();
+        }
+        int facingRobot = Utils.getFacingRobot(this);
+        while(getDirection() != orientation){
+            turnLeft();
+        }
+        return facingRobot;
+    }
+
     public abstract boolean isWinning();
 
     public Direction getOrientation(){
