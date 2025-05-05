@@ -54,23 +54,27 @@ public class Referee {
         }
     }
 
+    private void ascend(Participant[] participants){
+        for(int i=0;i<participants.length;i++){
+            while(!(participants[i].isFacingUp())){
+                participants[i].turnLeft();
+            }
+            participants[i].move();
+            while(participants[i].getDirection() != participants[i].getOrientation()){
+                participants[i].turnLeft();
+            }
+        }
+    }
+
     private void arrangeParticipants(Participant[] participants){
         for(int i=0;i< participants.length;i++){
             moveUp(participants[i]);
         }
+        ascend(participants);
     }
 
     private void doRound(){
         Participant[] victors = determineVictors(participants);
-        for(int i=0;i<victors.length;i++){
-            while(!(victors[i].isFacingUp())){
-                victors[i].turnLeft();
-            }
-            victors[i].move();
-            while(victors[i].getDirection() != victors[i].getOrientation()){
-                victors[i].turnLeft();
-            }
-        }
         arrangeParticipants(victors);
         participants = victors;
     }
