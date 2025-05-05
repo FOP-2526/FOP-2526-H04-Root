@@ -24,6 +24,9 @@ public abstract class Participant extends Robot {
         super(x, y);
         setRobotFamily(designs.get(this.getClass()));
         this.orientation = orientation;
+        while(getDirection() != orientation){
+            turnLeft();
+        }
     }
 
     public abstract void doVictoryDance();
