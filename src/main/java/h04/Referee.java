@@ -75,10 +75,19 @@ public class Referee {
         }
     }
 
-    public void doRound(){
+    private void doRound(){
         Participant[] victors = determineVictors(participants);
         arrangeParticipants(victors);
         participants = victors;
+    }
+
+    public void startMatch(){
+        while(participants.length > 1){
+            doRound();
+        }
+        Participant winner = participants[0];
+        System.out.println("The winner is: " + winner.getClass().getName());
+        winner.doVictoryDance();
     }
 
 }
