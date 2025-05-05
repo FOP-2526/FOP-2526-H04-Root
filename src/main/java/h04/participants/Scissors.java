@@ -19,7 +19,7 @@ public class Scissors extends Participant{
             return false;
         }
         if(facingRobot == 2){
-            return getX() % 2 == 0;
+            return getX() % 2 == 1;
         }
         if(facingRobot == 0){
             return false;

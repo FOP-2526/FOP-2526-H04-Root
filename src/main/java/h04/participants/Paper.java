@@ -27,7 +27,7 @@ public class Paper extends Participant{
             return false;
         }
         if(facingRobot == 1){
-            return getX() % 2 == 0;
+            return getX() % 2 == 1;
         }
         if(facingRobot == 2){
             return false;

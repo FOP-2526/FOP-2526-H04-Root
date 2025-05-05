@@ -19,7 +19,7 @@ public class Rock extends Participant{
             return false;
         }
         if(facingRobot == 0){
-            return getX() % 2 == 0;
+            return getX() % 2 == 1;
         }
         if(facingRobot == 1){
             return false;
