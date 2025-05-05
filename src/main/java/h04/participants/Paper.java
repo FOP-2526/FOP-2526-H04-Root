@@ -7,10 +7,10 @@ import java.util.Random;
 public class Paper extends Participant{
 
     public Paper(int x, int y) {
-        super(x, y, getOrientation() ? Direction.UP : Direction.DOWN);
+        super(x, y, determineOrientation() ? Direction.UP : Direction.DOWN);
     }
 
-    private static boolean getOrientation(){
+    private static boolean determineOrientation(){
         Random random = new Random();
         return random.nextBoolean();
     }

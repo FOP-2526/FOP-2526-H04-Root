@@ -39,4 +39,8 @@ public abstract class Participant extends Robot {
     }
 
     public abstract boolean isWinning();
+
+    public Direction getOrientation(){
+        return orientation;
+    }
 }

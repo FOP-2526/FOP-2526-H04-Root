@@ -1,5 +1,6 @@
 package h04;
 
+import fopbot.Direction;
 import h04.participants.Paper;
 import h04.participants.Participant;
 import h04.participants.Rock;
@@ -29,6 +30,49 @@ public class Referee {
                 }
             }
         }
+    }
+
+    private Participant[] determineVictors(Participant[] participants){
+        Participant[] victors = new Participant[participants.length/2];
+        for(int i=0;i< participants.length;i++){
+            if(participants[i].isWinning()){
+                victors[i] = participants[i];
+            }
+        }
+        return victors;
+    }
+
+    private void moveUp(Participant participant){
+        while(!(participant.isFacingLeft())){
+            participant.turnLeft();
+        }
+        while(participant.getFacingRobot() < 0){
+            participant.move();
+        }
+        while(participant.getDirection() != participant.getOrientation()){
+            participant.turnLeft();
+        }
+    }
+
+    private void arrangeParticipants(Participant[] participants){
+        for(int i=0;i< participants.length;i++){
+            moveUp(participants[i]);
+        }
+    }
+
+    private void doRound(){
+        Participant[] victors = determineVictors(participants);
+        for(int i=0;i<victors.length;i++){
+            while(!(victors[i].isFacingUp())){
+                victors[i].turnLeft();
+            }
+            victors[i].move();
+            while(victors[i].getDirection() != victors[i].getOrientation()){
+                victors[i].turnLeft();
+            }
+        }
+        arrangeParticipants(victors);
+        participants = victors;
     }
 
 }
