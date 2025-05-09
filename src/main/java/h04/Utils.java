@@ -20,6 +20,25 @@ public class Utils {
         return y <= karelWorld.getHeight() - 1 && y >= 0;
     }
 
+    public static boolean isFacingWall(Robot robot){
+        KarelWorld karelWorld = World.getGlobalWorld();
+        switch(robot.getDirection()){
+            case UP -> {
+                return !checkYCoordinate(robot.getY()+1, karelWorld);
+            }
+            case RIGHT -> {
+                return !checkXCoordinate(robot.getX()+1, karelWorld);
+            }
+            case DOWN -> {
+                return !checkYCoordinate(robot.getY()-1, karelWorld);
+            }
+            case LEFT -> {
+                return !checkXCoordinate(robot.getX()-1, karelWorld);
+            }
+        }
+        return false;
+    }
+
     private static int getFacingRobotChecked(Robot robot, KarelWorld karelWorld, int x, int y){
         if(!(checkXCoordinate(x, karelWorld) && checkYCoordinate(y, karelWorld))){
             return -1;
