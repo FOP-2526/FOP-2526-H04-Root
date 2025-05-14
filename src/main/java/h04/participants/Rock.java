@@ -30,11 +30,16 @@ public class Rock extends Participant{
             return false;
         }
         if(facingRobot == 0){
-            return getX() % 2 == 1;
+            if(getX() % 2 == 1){
+                wonRounds += 1;
+                return true;
+            }
+            return false;
         }
         if(facingRobot == 1){
             return false;
         }
+        wonRounds += 1;
         return true;
     }
 }
