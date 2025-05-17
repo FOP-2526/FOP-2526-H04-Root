@@ -1,5 +1,6 @@
 package h04;
 
+import fopbot.Direction;
 import fopbot.World;
 import h04.participants.*;
 
@@ -54,13 +55,35 @@ public class Referee {
         int victorCount = 0;
 
         for (int i = 0; i < participants.length; i += 2) {
-            Participant a = participants[i];
-            Participant b = participants[i+1];
-            victors[victorCount] = a.fight(b);
+            victors[victorCount] = playMatchUp(participants[i]);
             victorCount++;
         }
 
         return victors;
+    }
+
+    private Participant playMatchUp(Participant participant) {
+        Participant opponent = getOpponent(participant);
+        return participant.fight(opponent);
+    }
+
+    private Participant getOpponent(Participant participant) {
+        if (participant.getX() % 2 == 1) {
+            while (participant.getDirection() != Direction.LEFT) {
+                participant.turnLeft();
+            }
+        } else {
+            while (participant.getDirection() != Direction.RIGHT) {
+                participant.turnLeft();
+            }
+        }
+
+        Participant opponent = Utils.getParticipantInFrontOf(participant);
+        while (participant.getDirection() != participant.getOrientation()) {
+            participant.turnLeft();
+        }
+
+        return opponent;
     }
 
     private void arrangeParticipants(Participant[] participants) {

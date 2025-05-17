@@ -33,19 +33,23 @@ public class Paper extends Participant {
     }
 
     @Override
-    public Participant fight(Participant other) {
-        if (other.getSpecies() == Species.ROCK) {
+    public Participant fight(Participant opponent) {
+        if (opponent.getSpecies() == Species.ROCK) {
+            opponent.turnOff();
             return this;
         }
 
-        if (other.getSpecies() == Species.SCISSORS) {
-            return this;
+        if (opponent.getSpecies() == Species.SCISSORS) {
+            turnOff();
+            return opponent;
         }
 
-        if (other.getX() < getX()) {
-            return other;
+        if (opponent.getX() < getX()) {
+            turnOff();
+            return opponent;
         }
 
+        opponent.turnOff();
         return this;
     }
 }

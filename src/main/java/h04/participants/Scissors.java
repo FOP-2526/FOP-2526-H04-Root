@@ -20,19 +20,23 @@ public class Scissors extends Participant {
     }
 
     @Override
-    public Participant fight(Participant other) {
-        if (other.getSpecies() == Species.PAPER) {
+    public Participant fight(Participant opponent) {
+        if (opponent.getSpecies() == Species.PAPER) {
+            opponent.turnOff();
             return this;
         }
 
-        if (other.getSpecies() == Species.ROCK) {
-            return other;
+        if (opponent.getSpecies() == Species.ROCK) {
+            turnOff();
+            return opponent;
         }
 
-        if (other.getX() < getX()) {
-            return other;
+        if (opponent.getX() < getX()) {
+            turnOff();
+            return opponent;
         }
 
+        opponent.turnOff();
         return this;
     }
 }

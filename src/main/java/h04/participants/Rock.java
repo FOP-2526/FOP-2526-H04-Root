@@ -23,21 +23,25 @@ public class Rock extends Participant {
     }
 
     @Override
-    public Participant fight(Participant other) {
-        if (other.getSpecies() == Species.SCISSORS) {
+    public Participant fight(Participant opponent) {
+        if (opponent.getSpecies() == Species.SCISSORS) {
             roundsWon++;
+            opponent.turnOff();
             return this;
         }
 
-        if (other.getSpecies() == Species.PAPER) {
-            return other;
+        if (opponent.getSpecies() == Species.PAPER) {
+            turnOff();
+            return opponent;
         }
 
-        if (getX() < other.getX()) {
+        if (getX() < opponent.getX()) {
             roundsWon++;
+            opponent.turnOff();
             return this;
         }
 
-        return other;
+        turnOff();
+        return opponent;
     }
 }
