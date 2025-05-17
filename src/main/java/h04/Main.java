@@ -2,6 +2,8 @@ package h04;
 
 import fopbot.World;
 
+import javax.security.auth.RefreshFailedException;
+
 /**
  * Main entry point in executing the program.
  */
@@ -13,8 +15,11 @@ public class Main {
      */
     public static void main(String[] args) {
         // Create a 5x5 world and make it visible
-        World.setSize(5, 5);
+        World.setSize(10, 10);
         World.setVisible(true);
+
+        var ref = new Referee(new int[] {1, 2, 1, 2});
+        ref.startMatch();
 
         /*// Create at least one Hacking Robot with different positions and both cases for the array shift
         HackingRobot hackingRobot1 = new HackingRobot(1, 1, true);

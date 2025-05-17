@@ -14,7 +14,7 @@ public class Rock extends Participant {
     @Override
     public void doVictoryDance() {
         for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < wonRounds && !Utils.isFacingWall(this); j++) {
+            for (int j = 0; j < wonRounds && isFrontClear(); j++) {
                 move();
             }
             turnLeft();

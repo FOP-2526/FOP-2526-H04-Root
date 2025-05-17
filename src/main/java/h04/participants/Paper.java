@@ -25,7 +25,7 @@ public class Paper extends Participant {
             turnLeft();
         }
         for (int i = 0; i < startingXPosition; i++) {
-            while (!Utils.isFacingWall(this)) {
+            while (isFrontClear()) {
                 move();
             }
             turnLeft();

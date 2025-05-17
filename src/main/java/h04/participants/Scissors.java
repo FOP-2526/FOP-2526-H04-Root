@@ -13,7 +13,7 @@ public class Scissors extends Participant {
         while (!isFacingRight()) {
             turnLeft();
         }
-        while (hasAnyCoins() && !Utils.isFacingWall(this)) {
+        while (hasAnyCoins() && isFrontClear()) {
             putCoin();
             move();
         }

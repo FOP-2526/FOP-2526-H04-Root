@@ -12,14 +12,12 @@ import h04.participants.Scissors;
 import java.util.List;
 
 public class Utils {
-    private static boolean checkXCoordinate(int x, KarelWorld karelWorld) {
-        return x <= karelWorld.getWidth() - 1 && x >= 0;
-    }
 
     private static boolean checkYCoordinate(int y, KarelWorld karelWorld) {
         return y <= karelWorld.getHeight() - 1 && y >= 0;
     }
 
+    @Deprecated
     public static boolean isFacingWall(Robot robot) {
         KarelWorld karelWorld = World.getGlobalWorld();
         switch (robot.getDirection()) {
