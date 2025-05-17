@@ -2,12 +2,26 @@ package h04.participants;
 
 import fopbot.Direction;
 
+/**
+ * Instances of this class represent participants from the species scissors.
+ */
 public class Scissors extends Participant {
 
+    /**
+     * Construct scissors at the given x,y-coordinate.
+     * The orientation is always up.
+     *
+     * @param x The x coordinate
+     * @param y The y coordinate
+     */
     public Scissors(int x, int y) {
         super(Species.SCISSORS, x, y, Direction.UP);
     }
 
+    /**
+     * Perform the victory dance of a rock.
+     * Place all coins this robot have in a line to the right.
+     */
     @Override
     public void doVictoryDance() {
         while (!isFacingRight()) {

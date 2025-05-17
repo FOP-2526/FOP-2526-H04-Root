@@ -4,20 +4,41 @@ import fopbot.Direction;
 
 import java.util.Random;
 
+/**
+ * Instances of this class represent participants from the species Paper.
+ */
 public class Paper extends Participant {
 
+    /**
+     * The initial x coordinate of this robot.
+     * Used as a parameter for the victory dance.
+     */
     private final int startingXPosition;
 
+    /**
+     * Construct paper at the given x,y-coordinate.
+     * The orientation is picked at random.
+     *
+     * @param x The x coordinate
+     * @param y The y coordinate
+     */
     public Paper(int x, int y) {
         super(Species.PAPER, x, y, determineOrientation() ? Direction.UP : Direction.DOWN);
         startingXPosition = x;
     }
 
+    /**
+     * @return true or false with 50% prob. each.
+     */
     private static boolean determineOrientation() {
         Random random = new Random();
         return random.nextBoolean();
     }
 
+    /**
+     * Perform the victory dance of a paper.
+     * Move in a two-by-two square as many steps as the initial x coordinate.
+     */
     @Override
     public void doVictoryDance() {
         while (!isFacingRight()) {

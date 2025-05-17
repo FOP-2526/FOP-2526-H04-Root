@@ -13,7 +13,7 @@ public class Main {
      * @param args program arguments, currently ignored
      */
     public static void main(String[] args) {
-        // Create a 5x5 world and make it visible
+        // Create a 8x8 world and make it visible
         World.setSize(8, 8);
         World.setDelay(600);
         World.setVisible(true);
