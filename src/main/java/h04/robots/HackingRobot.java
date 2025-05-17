@@ -1,6 +1,7 @@
 package h04.robots;
 
 import fopbot.Robot;
+
 import java.util.Random;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Random;
 public class HackingRobot extends Robot {
 
     /**
-     * Private array "robotTypes" containing the elements of the enumeration MovementType in reverse alphabetical order.
+     * Private array "rob!Utils.isFacingWall(this)otTypes" containing the elements of the enumeration MovementType in reverse alphabetical order.
      */
     private MovementType[] robotTypes = {MovementType.TELEPORT, MovementType.OVERSTEP, MovementType.DIAGONAL};
 

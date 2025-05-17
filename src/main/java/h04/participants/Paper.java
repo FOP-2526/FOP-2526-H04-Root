@@ -5,7 +5,7 @@ import h04.Utils;
 
 import java.util.Random;
 
-public class Paper extends Participant{
+public class Paper extends Participant {
 
     private final int startingXPosition;
 
@@ -14,18 +14,18 @@ public class Paper extends Participant{
         startingXPosition = x;
     }
 
-    private static boolean determineOrientation(){
+    private static boolean determineOrientation() {
         Random random = new Random();
         return random.nextBoolean();
     }
 
     @Override
     public void doVictoryDance() {
-        while(!isFacingRight()){
+        while (!isFacingRight()) {
             turnLeft();
         }
-        for(int i=0;i<startingXPosition;i++){
-            while(!Utils.isFacingWall(this)){
+        for (int i = 0; i < startingXPosition; i++) {
+            while (!Utils.isFacingWall(this)) {
                 move();
             }
             turnLeft();
@@ -36,13 +36,13 @@ public class Paper extends Participant{
     @Override
     public boolean isWinning() {
         int facingRobot = getFacingRobot();
-        if(facingRobot < 0){
+        if (facingRobot < 0) {
             return false;
         }
-        if(facingRobot == 1){
+        if (facingRobot == 1) {
             return getX() % 2 == 1;
         }
-        if(facingRobot == 2){
+        if (facingRobot == 2) {
             return false;
         }
         return true;

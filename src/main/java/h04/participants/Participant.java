@@ -1,7 +1,7 @@
 package h04.participants;
 
-import fopbot.Robot;
 import fopbot.Direction;
+import fopbot.Robot;
 import fopbot.RobotFamily;
 import h04.Utils;
 
@@ -24,7 +24,7 @@ public abstract class Participant extends Robot {
         super(x, y);
         setRobotFamily(designs.get(this.getClass()));
         this.orientation = orientation;
-        while(getDirection() != orientation){
+        while (getDirection() != orientation) {
             turnLeft();
         }
     }
@@ -37,29 +37,29 @@ public abstract class Participant extends Robot {
     1 = Paper
     2 = Scissors
      */
-    public int getFacingRobot(){
-        if(getX() % 2 == 1){
-            while(getDirection() != Direction.LEFT){
+    public int getFacingRobot() {
+        if (getX() % 2 == 1) {
+            while (getDirection() != Direction.LEFT) {
                 turnLeft();
             }
-        } else{
-            while(getDirection() != Direction.RIGHT){
+        } else {
+            while (getDirection() != Direction.RIGHT) {
                 turnLeft();
             }
         }
         int facingRobot = Utils.getFacingRobot(this);
-        while(getDirection() != orientation){
+        while (getDirection() != orientation) {
             turnLeft();
         }
         return facingRobot;
     }
 
-    public int getFacingRobot(Direction orientation){
-        while(getDirection() != orientation){
+    public int getFacingRobot(Direction orientation) {
+        while (getDirection() != orientation) {
             turnLeft();
         }
         int facingRobot = Utils.getFacingRobot(this);
-        while(getDirection() != orientation){
+        while (getDirection() != orientation) {
             turnLeft();
         }
         return facingRobot;
@@ -67,7 +67,7 @@ public abstract class Participant extends Robot {
 
     public abstract boolean isWinning();
 
-    public Direction getOrientation(){
+    public Direction getOrientation() {
         return orientation;
     }
 }

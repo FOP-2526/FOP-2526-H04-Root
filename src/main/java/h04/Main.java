@@ -1,10 +1,6 @@
 package h04;
 
 import fopbot.World;
-import h04.robots.DoublePowerRobot;
-import h04.robots.HackingRobot;
-import h04.robots.MovementType;
-import h04.robots.VersatileRobot;
 
 /**
  * Main entry point in executing the program.

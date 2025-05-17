@@ -10,15 +10,15 @@ public class Referee {
     Participant[] participants;
     int[] setup;
 
-    public Referee(int[] setup){
+    public Referee(int[] setup) {
         this.setup = setup;
         initialize();
     }
 
-    private void initialize(){
+    private void initialize() {
         participants = new Participant[setup.length];
-        for(int i=0;i<setup.length;i++){
-            switch(setup[i]){
+        for (int i = 0; i < setup.length; i++) {
+            switch (setup[i]) {
                 case 0 -> {
                     participants[i] = new Rock(i, 0);
                 }
@@ -32,11 +32,11 @@ public class Referee {
         }
     }
 
-    private Participant[] determineVictors(Participant[] participants){
-        Participant[] victors = new Participant[participants.length/2];
+    private Participant[] determineVictors(Participant[] participants) {
+        Participant[] victors = new Participant[participants.length / 2];
         int victorCount = 0;
-        for(int i=0;i< participants.length;i++){
-            if(participants[i].isWinning()){
+        for (int i = 0; i < participants.length; i++) {
+            if (participants[i].isWinning()) {
                 victors[victorCount] = participants[i];
                 victorCount++;
             }
@@ -44,45 +44,45 @@ public class Referee {
         return victors;
     }
 
-    private void moveUp(Participant participant){
-        while(!(participant.isFacingLeft())){
+    private void moveUp(Participant participant) {
+        while (!(participant.isFacingLeft())) {
             participant.turnLeft();
         }
-        while(participant.getFacingRobot(Direction.LEFT) < 0 && participant.isFrontClear()){
+        while (participant.getFacingRobot(Direction.LEFT) < 0 && participant.isFrontClear()) {
             participant.move();
         }
-        while(participant.getDirection() != participant.getOrientation()){
+        while (participant.getDirection() != participant.getOrientation()) {
             participant.turnLeft();
         }
     }
 
-    private void ascend(Participant[] participants){
-        for(int i=0;i<participants.length;i++){
-            while(!(participants[i].isFacingUp())){
+    private void ascend(Participant[] participants) {
+        for (int i = 0; i < participants.length; i++) {
+            while (!(participants[i].isFacingUp())) {
                 participants[i].turnLeft();
             }
             participants[i].move();
-            while(participants[i].getDirection() != participants[i].getOrientation()){
+            while (participants[i].getDirection() != participants[i].getOrientation()) {
                 participants[i].turnLeft();
             }
         }
     }
 
-    private void arrangeParticipants(Participant[] participants){
+    private void arrangeParticipants(Participant[] participants) {
         ascend(participants);
-        for(int i=0;i<participants.length;i++){
+        for (int i = 0; i < participants.length; i++) {
             moveUp(participants[i]);
         }
     }
 
-    private void doRound(){
+    private void doRound() {
         Participant[] victors = determineVictors(participants);
         arrangeParticipants(victors);
         participants = victors;
     }
 
-    public void startMatch(){
-        while(participants.length > 1){
+    public void startMatch() {
+        while (participants.length > 1) {
             doRound();
         }
         Participant winner = participants[0];
