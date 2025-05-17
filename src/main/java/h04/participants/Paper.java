@@ -1,7 +1,6 @@
 package h04.participants;
 
 import fopbot.Direction;
-import h04.Utils;
 
 import java.util.Random;
 
@@ -10,7 +9,7 @@ public class Paper extends Participant {
     private final int startingXPosition;
 
     public Paper(int x, int y) {
-        super(x, y, determineOrientation() ? Direction.UP : Direction.DOWN);
+        super(Species.PAPER, x, y, determineOrientation() ? Direction.UP : Direction.DOWN);
         startingXPosition = x;
     }
 
@@ -34,17 +33,19 @@ public class Paper extends Participant {
     }
 
     @Override
-    public boolean isWinning() {
-        int facingRobot = getFacingRobot();
-        if (facingRobot < 0) {
-            return false;
+    public Participant fight(Participant other) {
+        if (other.getSpecies() == Species.ROCK) {
+            return this;
         }
-        if (facingRobot == 1) {
-            return getX() % 2 == 1;
+
+        if (other.getSpecies() == Species.SCISSORS) {
+            return this;
         }
-        if (facingRobot == 2) {
-            return false;
+
+        if (other.getX() < getX()) {
+            return other;
         }
-        return true;
+
+        return this;
     }
 }

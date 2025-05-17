@@ -3,26 +3,27 @@ package h04.participants;
 import fopbot.Direction;
 import fopbot.Robot;
 import fopbot.RobotFamily;
+import fopbot.World;
 import h04.Utils;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 
 public abstract class Participant extends Robot {
 
-    private final static Map<Class<? extends Participant>, RobotFamily> designs = new HashMap<>();
+    private final fopbot.Direction orientation;
 
-    protected final fopbot.Direction orientation;
+    private Species species;
 
-    static {
-        designs.put(Rock.class, RobotFamily.SQUARE_RED);
-        designs.put(Paper.class, RobotFamily.SQUARE_BLUE);
-        designs.put(Scissors.class, RobotFamily.SQUARE_GREEN);
-    }
-
-    public Participant(int x, int y, Direction orientation) {
+    public Participant(Species species, int x, int y, Direction orientation) {
         super(x, y);
-        setRobotFamily(designs.get(this.getClass()));
+
+        if (species == Species.PAPER) {
+            setRobotFamily(RobotFamily.SQUARE_BLUE);
+        } else if (species == Species.SCISSORS) {
+            setRobotFamily(RobotFamily.SQUARE_GREEN);
+        } else if (species == Species.ROCK) {
+            setRobotFamily(RobotFamily.SQUARE_RED);
+        }
+
         this.orientation = orientation;
         while (getDirection() != orientation) {
             turnLeft();
@@ -31,13 +32,8 @@ public abstract class Participant extends Robot {
 
     public abstract void doVictoryDance();
 
-    /*
-    -1 = invalid
-    0 = Rock
-    1 = Paper
-    2 = Scissors
-     */
-    public int getFacingRobot() {
+    @Deprecated
+    public Participant getOpponent() {
         if (getX() % 2 == 1) {
             while (getDirection() != Direction.LEFT) {
                 turnLeft();
@@ -47,27 +43,29 @@ public abstract class Participant extends Robot {
                 turnLeft();
             }
         }
-        int facingRobot = Utils.getFacingRobot(this);
+
+        Participant opponent = Utils.getParticipantInFrontOf(this);
         while (getDirection() != orientation) {
             turnLeft();
         }
-        return facingRobot;
+
+        return opponent;
     }
 
-    public int getFacingRobot(Direction orientation) {
-        while (getDirection() != orientation) {
-            turnLeft();
-        }
-        int facingRobot = Utils.getFacingRobot(this);
-        while (getDirection() != orientation) {
-            turnLeft();
-        }
-        return facingRobot;
-    }
-
-    public abstract boolean isWinning();
+    /**
+     * Fights against the given opponent according to the rules of the game and return the winner.
+     * On ties, the left most robot (smaller x coordinate) wins by tie-break.
+     *
+     * @param opponent The opponent to fight
+     * @return Either <code>this</code> or <code>opponent</code>.
+     */
+    public abstract Participant fight(Participant opponent);
 
     public Direction getOrientation() {
         return orientation;
+    }
+
+    public Species getSpecies() {
+        return species;
     }
 }

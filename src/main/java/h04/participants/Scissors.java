@@ -1,11 +1,11 @@
 package h04.participants;
 
 import fopbot.Direction;
-import h04.Utils;
 
 public class Scissors extends Participant {
+
     public Scissors(int x, int y) {
-        super(x, y, Direction.UP);
+        super(Species.SCISSORS, x, y, Direction.UP);
     }
 
     @Override
@@ -20,20 +20,19 @@ public class Scissors extends Participant {
     }
 
     @Override
-    public boolean isWinning() {
-        int facingRobot = getFacingRobot();
-        if (facingRobot >= 0) {
-            setNumberOfCoins(getNumberOfCoins() + facingRobot);
+    public Participant fight(Participant other) {
+        if (other.getSpecies() == Species.PAPER) {
+            return this;
         }
-        if (facingRobot < 0) {
-            return false;
+
+        if (other.getSpecies() == Species.ROCK) {
+            return other;
         }
-        if (facingRobot == 2) {
-            return getX() % 2 == 1;
+
+        if (other.getX() < getX()) {
+            return other;
         }
-        if (facingRobot == 0) {
-            return false;
-        }
-        return true;
+
+        return this;
     }
 }
