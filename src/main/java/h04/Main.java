@@ -18,13 +18,13 @@ public class Main {
         World.setDelay(600);
         World.setVisible(true);
 
-        Referee ref = new Referee(Species.ROCK, Species.PAPER, Species.SCISSORS, Species.ROCK);
+        Referee ref = new Referee(Species.ROCK, Species.SCISSORS, Species.ROCK);
         ref.hostTournament();
 
         ref.setLineUp(Species.PAPER, Species.PAPER, Species.PAPER, Species.SCISSORS);
         ref.hostTournament();
 
-        ref.setLineUp(Species.PAPER, Species.ROCK, Species.PAPER, Species.SCISSORS);
+        ref.setLineUp(Species.PAPER, Species.ROCK, Species.PAPER, Species.SCISSORS, Species.ROCK, Species.PAPER, Species.SCISSORS);
         ref.hostTournament();
     }
 }

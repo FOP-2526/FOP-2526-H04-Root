@@ -86,7 +86,14 @@ public class Referee {
      * @return An array of {@link Participant}s representing the victors of each matchup
      */
     private Participant[] determineVictors(Participant[] participants) {
-        Participant[] victors = new Participant[participants.length / 2];
+        Participant[] victors;
+
+        if (participants.length % 2 == 0) {
+            victors = new Participant[participants.length / 2];
+        } else {
+            victors = new Participant[participants.length / 2 + 1];
+        }
+
         int victorCount = 0;
 
         for (int i = 0; i < participants.length; i += 2) {
@@ -106,6 +113,12 @@ public class Referee {
      */
     private Participant playMatchUp(Participant participant) {
         Participant opponent = getOpponent(participant);
+
+        if (opponent == null) {
+            // No one left to fight in this round
+            return participant;
+        }
+
         return participant.fight(opponent);
     }
 
@@ -114,9 +127,12 @@ public class Referee {
      * <p>
      * Neighboring participants are paired against each other so the participant
      * with x coordinate <code>x = 2*n</code> always play against <code>x = 2*n + 1</code>.
+     * <p>
+     * If the number of participates is odd, this will return null for the right most participant
+     * because they are left with one to play against.
      *
      * @param participant A participant
-     * @return The opponent of the given participant
+     * @return The opponent of the given participant or null
      */
     private Participant getOpponent(Participant participant) {
         if (participant.getX() % 2 == 1) {
