@@ -1,7 +1,7 @@
 package h04;
 
 import fopbot.World;
-import h04.participants.Species;
+import h04.participants.*;
 
 /**
  * Main entry point in executing the program.
@@ -15,16 +15,12 @@ public class Main {
     public static void main(String[] args) {
         // Create an 8 by 8 world and make it visible
         World.setSize(8, 8);
-        World.setDelay(600);
+
+        ParticipantDrawing.register();
+
         World.setVisible(true);
 
-        Referee ref = new Referee(Species.ROCK, Species.SCISSORS, Species.ROCK);
-        ref.hostTournament();
-
-        ref.setLineUp(Species.PAPER, Species.PAPER, Species.PAPER, Species.SCISSORS);
-        ref.hostTournament();
-
-        ref.setLineUp(Species.PAPER, Species.ROCK, Species.PAPER, Species.SCISSORS, Species.ROCK, Species.PAPER, Species.SCISSORS);
+        Referee ref = new Referee(Species.PAPER, Species.ROCK, Species.PAPER, Species.SCISSORS, Species.ROCK, Species.PAPER, Species.SCISSORS);
         ref.hostTournament();
     }
 }

@@ -1,8 +1,6 @@
 package h04.participants;
 
-import fopbot.Direction;
-import fopbot.Robot;
-import fopbot.RobotFamily;
+import fopbot.*;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
 
 /**
