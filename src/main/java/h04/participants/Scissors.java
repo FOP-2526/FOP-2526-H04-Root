@@ -18,6 +18,7 @@ public class Scissors extends Participant {
      */
     public Scissors(int x, int y) {
         super(Species.SCISSORS, x, y, Direction.UP);
+        setRobotFamily(SCISSORS_FAMILY);
     }
 
     /**

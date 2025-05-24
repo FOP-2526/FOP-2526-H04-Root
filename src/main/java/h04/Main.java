@@ -16,8 +16,6 @@ public class Main {
         // Create an 8 by 8 world and make it visible
         World.setSize(8, 8);
 
-        ParticipantDrawing.register();
-
         World.setVisible(true);
 
         Referee ref = new Referee(Species.PAPER, Species.ROCK, Species.PAPER, Species.SCISSORS, Species.ROCK, Species.PAPER, Species.SCISSORS);
