@@ -3,7 +3,9 @@ package h04.participants;
 import fopbot.Direction;
 
 /**
- * Instances of this class represent participants from the species scissors.
+ * Instances of this class represent participants from the species of scissors.
+ * <p>
+ * Scissors start with no coins but steal coins when fighting against anything other than a pair of scissors.
  */
 public class Scissors extends Participant {
 
@@ -20,7 +22,7 @@ public class Scissors extends Participant {
 
     /**
      * Perform the victory dance of a rock.
-     * Place all coins this robot have in a line to the right.
+     * Place all coins this robot has in a line to the right.
      */
     @Override
     public void doVictoryDance() {
@@ -35,6 +37,11 @@ public class Scissors extends Participant {
 
     @Override
     public Participant fight(Participant opponent) {
+        if (opponent.getSpecies() != Species.SCISSORS) {
+            setNumberOfCoins(opponent.getNumberOfCoins() + getNumberOfCoins());
+            opponent.setNumberOfCoins(0);
+        }
+
         if (opponent.getSpecies() == Species.PAPER) {
             opponent.turnOff();
             return this;

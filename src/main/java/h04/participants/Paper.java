@@ -6,6 +6,8 @@ import java.util.Random;
 
 /**
  * Instances of this class represent participants from the species Paper.
+ * <p>
+ * Paper spawns with 2 coins.
  */
 public class Paper extends Participant {
 
@@ -24,6 +26,7 @@ public class Paper extends Participant {
      */
     public Paper(int x, int y) {
         super(Species.PAPER, x, y, determineOrientation() ? Direction.UP : Direction.DOWN);
+        setNumberOfCoins(2);
         startingXPosition = x;
     }
 

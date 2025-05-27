@@ -4,6 +4,8 @@ import fopbot.Direction;
 
 /**
  * Instances of this class represent participants from the species Rock.
+ * <p>
+ * Rock spawns with 3 coins.
  */
 public class Rock extends Participant {
 
@@ -22,11 +24,12 @@ public class Rock extends Participant {
      */
     public Rock(int x, int y) {
         super(Species.ROCK, x, y, Direction.UP);
+        setNumberOfCoins(3);
     }
 
     /**
      * Perform the victory dance of a rock.
-     * Move in a n*n square where n is the number of won rounds.
+     * Move in an n*n square where n is the number of won rounds.
      */
     @Override
     public void doVictoryDance() {
