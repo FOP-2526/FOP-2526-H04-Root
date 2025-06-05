@@ -68,7 +68,7 @@ public class Paper extends Participant {
             return opponent;
         }
 
-        if (opponent.getX() < getX()) {
+        if (opponent.getX() > getX()) {
             turnOff();
             return opponent;
         }

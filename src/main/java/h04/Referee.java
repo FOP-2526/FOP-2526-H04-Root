@@ -128,7 +128,7 @@ public class Referee {
      * Neighboring participants are paired against each other so the participant
      * with x coordinate <code>x = 2*n</code> always play against <code>x = 2*n + 1</code>.
      * <p>
-     * If the number of participates is odd, this will return null for the right most participant
+     * If the number of participating is odd, this will return null for the right most participant
      * because they are left with one to play against.
      *
      * @param participant A participant

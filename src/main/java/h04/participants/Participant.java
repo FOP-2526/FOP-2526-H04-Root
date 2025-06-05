@@ -17,7 +17,7 @@ public abstract class Participant extends Robot {
 
     /**
      * The orientation of a participant saved between rounds.
-     * This attribute is also used, to parameterize the victory dance.
+     * This attribute is also used to parameterize the victory dance.
      */
     private final Direction orientation;
 
@@ -59,9 +59,9 @@ public abstract class Participant extends Robot {
     public abstract void doVictoryDance();
 
     /**
-     * Fights against the given opponent according to the rules of the game.
+     * Fights against the given opponent, according to the rules of the game.
      * The loser of this match is turned off and the winner is returned.
-     * On ties, the left most robot (smaller x coordinate) wins by tie-break.
+     * On ties, the right most robot (bigger x coordinate) wins by tie-break.
      *
      * @param opponent The opponent to fight
      * @return Either <code>this</code> or <code>opponent</code>.

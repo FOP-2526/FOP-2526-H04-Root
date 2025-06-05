@@ -56,7 +56,7 @@ public class Rock extends Participant {
             return opponent;
         }
 
-        if (getX() < opponent.getX()) {
+        if (getX() > opponent.getX()) {
             roundsWon++;
             opponent.turnOff();
             return this;
