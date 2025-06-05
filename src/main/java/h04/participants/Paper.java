@@ -2,14 +2,14 @@ package h04.participants;
 
 import fopbot.Direction;
 
-import java.util.Random;
-
 /**
  * Instances of this class represent participants from the species Paper.
  * <p>
  * Paper spawns with 2 coins.
  */
 public class Paper extends Participant {
+
+    private static int NUMBER_OF_PAPERS = 0;
 
     /**
      * The initial x coordinate of this robot.
@@ -19,23 +19,15 @@ public class Paper extends Participant {
 
     /**
      * Construct paper at the given x,y-coordinate.
-     * The orientation is picked at random.
+     * The orientation flip between up and down for each instantiated Paper.
      *
      * @param x The x coordinate
      * @param y The y coordinate
      */
     public Paper(int x, int y) {
-        super(Species.PAPER, x, y, determineOrientation() ? Direction.UP : Direction.DOWN);
+        super(Species.PAPER, x, y, NUMBER_OF_PAPERS++ % 2 == 0 ? Direction.UP : Direction.DOWN);
         setNumberOfCoins(2);
         startingXPosition = x;
-    }
-
-    /**
-     * @return true or false with 50% prob. each.
-     */
-    private static boolean determineOrientation() {
-        Random random = new Random();
-        return random.nextBoolean();
     }
 
     /**
