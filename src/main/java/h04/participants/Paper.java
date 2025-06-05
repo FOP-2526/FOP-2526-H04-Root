@@ -40,7 +40,7 @@ public class Paper extends Participant {
 
     /**
      * Perform the victory dance of a paper.
-     * Move in a two-by-two square as many steps as the initial x coordinate.
+     * Bounce between the walls as many times as the initial x coordinate.
      */
     @Override
     public void doVictoryDance() {
