@@ -1,5 +1,6 @@
 package h04;
 
+import h04.participants.PaperTests;
 import h04.participants.ScissorsTests;
 import org.sourcegrade.jagr.api.rubric.Criterion;
 import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
@@ -38,19 +39,19 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 .addChildCriteria(
                     criterion(
                         "Die Klasse Paper ist korrekt deklariert ink. dem Erben aus Participant und der Deklaration der Attribute.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> PaperTests.class.getDeclaredMethod("testDefinition"))),
                     criterion(
                         "Der Konstruktor der Klasse Scissors ist korrekt deklariert, initialisiert die Attribute korrekt und ruft den Super-Konstruktor auf.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> PaperTests.class.getDeclaredMethod("testConstructor", int.class))),
                     criterion(
                         "Die Methode doVictoryDance ist korrekt implementiert.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> PaperTests.class.getDeclaredMethod("testDoVictoryDance", int.class))),
                     criterion(
                         "Die Methode fight behandelt den Fall korrekt, dass das Papier gewinnt.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> PaperTests.class.getDeclaredMethod("testFightWin", PaperTests.Outcome.class))),
                     criterion(
                         "Die Methode fight behandelt alle anderen Fälle korrekt",
-                        (JUnitTestRef) null)
+                        JUnitTestRef.ofMethod(() -> PaperTests.class.getDeclaredMethod("testFightOther", PaperTests.Outcome.class)))
                 )
                 .build(),
             Criterion.builder()
