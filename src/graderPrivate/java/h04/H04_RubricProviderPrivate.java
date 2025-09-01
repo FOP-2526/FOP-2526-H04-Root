@@ -1,6 +1,7 @@
 package h04;
 
 import h04.participants.PaperTests;
+import h04.participants.RockTests;
 import h04.participants.ScissorsTests;
 import org.sourcegrade.jagr.api.rubric.Criterion;
 import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
@@ -59,19 +60,20 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 .addChildCriteria(
                     criterion(
                         "Die Klasse Rock ist korrekt deklariert ink. dem Erben aus Participant und der Deklaration der Attribute.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> RockTests.class.getDeclaredMethod("testDefinition"))),
                     criterion(
                         "Der Konstruktor der Klasse Scissors ist korrekt deklariert, initialisiert die Attribute korrekt und ruft den Super-Konstruktor auf.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> RockTests.class.getDeclaredMethod("testConstructor"))),
                     criterion(
                         "Die Methode doVictoryDance ist korrekt implementiert.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> RockTests.class.getDeclaredMethod("testDoVictoryDance_FittingWorld", int.class)),
+                        JUnitTestRef.ofMethod(() -> RockTests.class.getDeclaredMethod("testDoVictoryDance_NarrowWorld", int.class))),
                     criterion(
                         "Die Methode fight behandelt den Fall korrekt, dass der Stein gewinnt.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> RockTests.class.getDeclaredMethod("testFightWin", RockTests.Outcome.class))),
                     criterion(
                         "Die Methode fight behandelt alle anderen Fälle korrekt",
-                        (JUnitTestRef) null)
+                        JUnitTestRef.ofMethod(() -> RockTests.class.getDeclaredMethod("testFightOther", RockTests.Outcome.class)))
                 )
                 .build()
         )
