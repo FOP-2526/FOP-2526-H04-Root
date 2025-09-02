@@ -24,6 +24,7 @@ import org.tudalgo.algoutils.tutor.general.reflections.TypeLink;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
@@ -407,6 +408,61 @@ public class RefereeTests {
                         r -> "The loser %s was not turned off".formatted(participant));
                 }
             }
+        }
+    }
+
+    public enum DoRound_CheckMode {
+        METHOD_CALLS, PARTICIPANTS_FIELD
+    }
+
+    @Test
+    public void testDoRound_methodCalls() {
+        testDoRound(DoRound_CheckMode.METHOD_CALLS);
+    }
+
+    @Test
+    public void testDoRound_setField() {
+        testDoRound(DoRound_CheckMode.PARTICIPANTS_FIELD);
+    }
+
+    private void testDoRound(DoRound_CheckMode checkMode) {
+        Participant[] participants = makeParticipantMocks(4);
+        Participant[] victors = Arrays.copyOf(participants, participants.length / 2);
+        Context context = contextBuilder()
+            .add("participants (field)", participants)
+            .build();
+        AtomicReference<Participant[]> determineVictorsArg = new AtomicReference<>();
+        AtomicReference<Participant[]> arrangeParticipantsArg = new AtomicReference<>();
+        Answer<?> refereeAnswer = invocation -> {
+            Method invokedMethod = invocation.getMethod();
+            if (TestUtils.methodSignatureEquals(invokedMethod, "determineVictors", Participant[].class)) {
+                determineVictorsArg.set(invocation.getArgument(0));
+                return victors;
+            } else if (TestUtils.methodSignatureEquals(invokedMethod, "arrangeParticipants", Participant[].class)) {
+                arrangeParticipantsArg.set(invocation.getArgument(0));
+                return null;
+            } else {
+                return invocation.callRealMethod();
+            }
+        };
+        Referee refereeMock = Mockito.mock(Referee.class, refereeAnswer);
+
+        Links.REFEREE_PARTICIPANTS_FIELD_LINK.get().set(refereeMock, participants);
+        call(() -> Links.REFEREE_DO_ROUND_METHOD_LINK.get().invoke(refereeMock), context,
+            r -> "An exception occurred while invoking Referee.doRound()");
+
+        if (checkMode == DoRound_CheckMode.METHOD_CALLS) {
+            assertNotNull(determineVictorsArg.get(), context,
+                r -> "Referee.doRound() did not call Referee.determineVictors(Participant[])");
+            assertSame(participants, determineVictorsArg.get(), context,
+                r -> "Referee.doRound() did not call Referee.determineVictors(Participant[]) with the correct argument");
+            assertNotNull(arrangeParticipantsArg.get(), context,
+                r -> "Referee.doRound() did not call Referee.arrangeParticipants(Participant[])");
+            assertSame(victors, arrangeParticipantsArg.get(), context,
+                r -> "Referee.doRound() did not call Referee.arrangeParticipants(Participant[]) with the correct argument");
+        } else if (checkMode == DoRound_CheckMode.PARTICIPANTS_FIELD) {
+            assertTrue(Arrays.equals(victors, Links.REFEREE_PARTICIPANTS_FIELD_LINK.get().get(refereeMock)), context,
+                r -> "Referee.doRound() did not set field Referee.participants to the correct value");
         }
     }
 

@@ -153,10 +153,10 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 .addChildCriteria(
                     criterion(
                         "Die Aufrufe von determineVictors und arrangeParticipants sind korrekt.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testDoRound_methodCalls"))),
                     criterion(
                         "Das Teilnehmer Array zeigt nach Ablauf der Methode korrekt auf die Sieger.",
-                        (JUnitTestRef) null)
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testDoRound_setField")))
                 )
                 .build()
         )
