@@ -16,7 +16,7 @@ public class H04_RubricProviderPrivate implements RubricProvider {
         .shortDescription("H4.1 | Die Teilnehmer")
         .addChildCriteria(
             Criterion.builder()
-                .shortDescription("H1.1.1 | Schere")
+                .shortDescription("H4.1.1 | Schere")
                 .addChildCriteria(
                     criterion(
                         "Die Klasse Scissors ist korrekt deklariert ink. dem Erben aus Participant",
@@ -36,7 +36,7 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 )
                 .build(),
             Criterion.builder()
-                .shortDescription("H1.1.2 | Papier")
+                .shortDescription("H4.1.2 | Papier")
                 .addChildCriteria(
                     criterion(
                         "Die Klasse Paper ist korrekt deklariert ink. dem Erben aus Participant und der Deklaration der Attribute.",
@@ -56,7 +56,7 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 )
                 .build(),
             Criterion.builder()
-                .shortDescription("H1.1.3 | Stein")
+                .shortDescription("H4.1.3 | Stein")
                 .addChildCriteria(
                     criterion(
                         "Die Klasse Rock ist korrekt deklariert ink. dem Erben aus Participant und der Deklaration der Attribute.",
@@ -84,7 +84,7 @@ public class H04_RubricProviderPrivate implements RubricProvider {
         .minPoints(0)
         .addChildCriteria(
             Criterion.builder()
-                .shortDescription("H1.2.1 | Zur nächsten Runde laufen")
+                .shortDescription("H4.2.1 | Zur nächsten Runde laufen")
                 .addChildCriteria(
                     criterion(
                         "Die Methode ascend bewegt alle Teilnehmer nach oben und in keine andere Richtung.",
@@ -104,7 +104,7 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 )
                 .build(),
             Criterion.builder()
-                .shortDescription("H1.2.2 | Zur nächsten Runde laufen")
+                .shortDescription("H4.2.2 | Zur nächsten Runde laufen")
                 .addChildCriteria(
                     criterion(
                         "Nach der Methode ist die Länge des Teilnehmer Arrays korrekt.",
@@ -121,7 +121,7 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 )
                 .build(),
             Criterion.builder()
-                .shortDescription("H1.2.3 | Der Gegner neben einem")
+                .shortDescription("H4.2.3 | Der Gegner neben einem")
                 .addChildCriteria(
                     criterion(
                         "Die Methode getOpponent behandelt den Fall, dass der Gegner links ist, korrekt.",
@@ -138,7 +138,7 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 )
                 .build(),
             Criterion.builder()
-                .shortDescription("H1.2.4 | Die Sieger finden")
+                .shortDescription("H4.2.4 | Die Sieger finden")
                 .addChildCriteria(
                     criterion(
                         "Die Länge und Einträge des Zurückgegeben Arrays sind korrekt.",
@@ -149,7 +149,7 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 )
                 .build(),
             Criterion.builder()
-                .shortDescription("H1.2.5 | Eine Runde spielen")
+                .shortDescription("H4.2.5 | Eine Runde spielen")
                 .addChildCriteria(
                     criterion(
                         "Die Aufrufe von determineVictors und arrangeParticipants sind korrekt.",
