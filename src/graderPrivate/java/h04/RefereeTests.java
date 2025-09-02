@@ -1,25 +1,92 @@
 package h04;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import fopbot.Direction;
+import fopbot.FieldEntity;
 import fopbot.Robot;
 import fopbot.World;
 import h04.participants.Participant;
 import h04.participants.Species;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
+import org.mockito.stubbing.Answer;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.tudalgo.algoutils.tutor.general.assertions.Context;
+import org.tudalgo.algoutils.tutor.general.reflections.TypeLink;
 
-import java.util.Arrays;
-import java.util.Set;
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
 
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
 @TestForSubmission
 public class RefereeTests {
 
+    private static final BiMap<Object, Participant> DELEGATES = HashBiMap.create();
+    private static final Map<Species, MockedConstruction<?>> MOCKED_CONSTRUCTIONS = new EnumMap<>(Species.class);
+
     private Referee refereeInstance;
+
+    @BeforeAll
+    public static void init() {
+        Map<Species, Supplier<TypeLink>> typeLinkMapping = Map.of(
+            Species.PAPER, Links.PAPER_TYPE,
+            Species.ROCK, Links.ROCK_TYPE,
+            Species.SCISSORS, Links.SCISSORS_TYPE
+        );
+        Answer<?> answer = invocation -> {
+            Method invokedMethod = invocation.getMethod();
+            if (TestUtils.methodSignatureEquals(invokedMethod, "doVictoryDance")) {
+                return null;
+            } else if (TestUtils.methodSignatureEquals(invokedMethod, "fight", Participant.class)) {
+                return invocation.getMock();
+            } else {
+                return invokedMethod.invoke(DELEGATES.get(invocation.getMock()), invocation.getRawArguments());
+            }
+        };
+
+        for (Map.Entry<Species, Supplier<TypeLink>> entry : typeLinkMapping.entrySet()) {
+            Species species = entry.getKey();
+            TypeLink typeLink = entry.getValue().get();
+
+            if (typeLink != null) {
+                AtomicBoolean paperFacesUp = new AtomicBoolean(true);
+                MockedConstruction<?> mockedConstruction = Mockito.mockConstruction(typeLink.reflection(),
+                    Mockito.withSettings().defaultAnswer(answer),
+                    (mock, context) -> {
+                        Direction direction;
+                        if (species == Species.PAPER) {
+                            direction = paperFacesUp.getAndSet(!paperFacesUp.get()) ? Direction.UP : Direction.DOWN;
+                        } else {
+                            direction = Direction.UP;
+                        }
+                        @SuppressWarnings("SequencedCollectionMethodCanBeUsed")
+                        Participant instance = new Participant(species,
+                            (int) context.arguments().get(0),
+                            (int) context.arguments().get(1),
+                            direction) {
+                                @Override
+                                public void doVictoryDance() {}
+
+                                @Override
+                                public Participant fight(Participant opponent) {
+                                    return null;
+                                }
+                        };
+                        DELEGATES.put(mock, instance);
+                    });
+
+                MOCKED_CONSTRUCTIONS.put(species, mockedConstruction);
+            }
+        }
+    }
 
     @BeforeEach
     public void setup() {
@@ -28,6 +95,11 @@ public class RefereeTests {
         World.setVisible(false);
 
         refereeInstance = new Referee();
+    }
+
+    @AfterAll
+    public static void cleanup() {
+        MOCKED_CONSTRUCTIONS.forEach((key, mockedConstruction) -> mockedConstruction.close());
     }
 
     @Test
@@ -186,6 +258,7 @@ public class RefereeTests {
     }
 
     @Test
+    @SuppressWarnings("SuspiciousMethodCalls")
     public void testPlaceLineUp_callsReset() {
         Species[] species = new Species[] {Species.ROCK, Species.PAPER, Species.SCISSORS, Species.PAPER, Species.ROCK};
         Referee refereeInstance = new Referee(species);
@@ -197,7 +270,13 @@ public class RefereeTests {
         call(() -> Links.REFEREE_PLACE_LINE_UP_METHOD_LINK.get().invoke(refereeInstance), context,
             r -> "An exception occurred while invoking Referee.placeLineUp()");
         Participant[] participants = Links.REFEREE_PARTICIPANTS_FIELD_LINK.get().get(refereeInstance);
-        assertTrue(Set.of(participants).containsAll(World.getGlobalWorld().getAllFieldEntities()), context,
+        List<? extends FieldEntity> fieldEntities = World.getGlobalWorld()
+            .getAllFieldEntities()
+            .stream()
+            // Need to get the "inverse delegate" since the delegate is placed in the world but the mock isn't
+            .map(fieldEntity -> DELEGATES.containsValue(fieldEntity) ? (FieldEntity) DELEGATES.inverse().get(fieldEntity) : fieldEntity)
+            .toList();
+        assertTrue(Set.of(participants).containsAll(fieldEntities), context,
             r -> "Referee.placeLineUp() did not call World.reset()");
     }
 
