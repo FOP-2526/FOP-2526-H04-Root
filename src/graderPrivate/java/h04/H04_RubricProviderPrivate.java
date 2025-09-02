@@ -107,17 +107,17 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 .shortDescription("H4.2.2 | Zur nächsten Runde laufen")
                 .addChildCriteria(
                     criterion(
-                        "Nach der Methode ist die Länge des Teilnehmer Arrays korrekt.",
-                        (JUnitTestRef) null),
+                        "Nach der Methode ist die Länge des Teilnehmer-Arrays korrekt.",
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testPlaceLineUp_arrayLength"))),
                     criterion(
-                        "Nach der Methode sind die Einträge des Teilnehmer Arrays, im Bezug auf dessen Typs, korrekt.",
-                        (JUnitTestRef) null),
+                        "Nach der Methode sind die Einträge des Teilnehmer-Arrays bezüglich der Typen korrekt.",
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testPlaceLineUp_participantTypes"))),
                     criterion(
                         "Alle Teilnehmer befinden sich nach der Methode an der korrekten Position und haben die korrekte Ausrichtung",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testPlaceLineUp_orientation"))),
                     criterion(
-                        "Es befinden sich nach der Methode keine Objekte in der Welt.",
-                        (JUnitTestRef) null)
+                        "Es befinden sich nach der Methode keine sonstigen Objekte in der Welt.",
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testPlaceLineUp_callsReset")))
                 )
                 .build(),
             Criterion.builder()

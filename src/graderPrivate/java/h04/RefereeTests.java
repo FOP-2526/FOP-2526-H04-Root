@@ -1,6 +1,7 @@
 package h04;
 
 import fopbot.Direction;
+import fopbot.Robot;
 import fopbot.World;
 import h04.participants.Participant;
 import h04.participants.Species;
@@ -11,6 +12,7 @@ import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.tudalgo.algoutils.tutor.general.assertions.Context;
 
 import java.util.Arrays;
+import java.util.Set;
 
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
@@ -120,6 +122,83 @@ public class RefereeTests {
             assertEquals(originalParticipants[i].getOrientation(), participants[i].getDirection(), context,
                 r -> "Participant does not face the direction that is returned by Participant.getOrientation()");
         }
+    }
+
+    @Test
+    public void testPlaceLineUp_arrayLength() {
+        Species[] species = new Species[] {Species.ROCK, Species.PAPER, Species.SCISSORS, Species.PAPER, Species.ROCK};
+        Referee refereeInstance = new Referee(species);
+        Context context = contextBuilder()
+            .add("lineUp (constructor parameter 1)", species)
+            .build();
+
+        call(() -> Links.REFEREE_PLACE_LINE_UP_METHOD_LINK.get().invoke(refereeInstance), context,
+            r -> "An exception occurred while invoking Referee.placeLineUp()");
+        assertEquals(species.length, Links.REFEREE_PARTICIPANTS_FIELD_LINK.get().<Participant[]>get(refereeInstance).length, context,
+            r -> "Length of participant array (field participants) is incorrect");
+    }
+
+    @Test
+    public void testPlaceLineUp_participantTypes() {
+        Species[] species = new Species[] {Species.ROCK, Species.PAPER, Species.SCISSORS, Species.PAPER, Species.ROCK};
+        Referee refereeInstance = new Referee(species);
+        Context context = contextBuilder()
+            .add("lineUp (constructor parameter 1)", species)
+            .build();
+
+        call(() -> Links.REFEREE_PLACE_LINE_UP_METHOD_LINK.get().invoke(refereeInstance), context,
+            r -> "An exception occurred while invoking Referee.placeLineUp()");
+        Participant[] participants = Links.REFEREE_PARTICIPANTS_FIELD_LINK.get().get(refereeInstance);
+        for (int i = 0; i < species.length; i++) {
+            final int finalI = i;
+            assertEquals(species[i], participants[i].getSpecies(), context,
+                r -> "Species of participant at index %d is incorrect".formatted(finalI));
+        }
+    }
+
+    @Test
+    public void testPlaceLineUp_orientation() {
+        Species[] species = new Species[] {Species.ROCK, Species.PAPER, Species.SCISSORS, Species.PAPER, Species.ROCK};
+        Referee refereeInstance = new Referee(species);
+        Context context = contextBuilder()
+            .add("lineUp (constructor parameter 1)", species)
+            .build();
+
+        call(() -> Links.REFEREE_PLACE_LINE_UP_METHOD_LINK.get().invoke(refereeInstance), context,
+            r -> "An exception occurred while invoking Referee.placeLineUp()");
+        Participant[] participants = Links.REFEREE_PARTICIPANTS_FIELD_LINK.get().get(refereeInstance);
+        boolean paperFaceUp = true;
+        for (int i = 0; i < species.length; i++) {
+            final int finalI = i;
+            assertEquals(i, participants[i].getX(), context,
+                r -> "X coordinate of participant at index %d is incorrect".formatted(finalI));
+            assertEquals(0, participants[i].getY(), context,
+                r -> "Y coordinate of participant at index %d is incorrect".formatted(finalI));
+            if (species[i] != Species.PAPER) {
+                assertEquals(Direction.UP, participants[i].getDirection(), context,
+                    r -> "Direction of participant at index %d is incorrect".formatted(finalI));
+            } else {
+                assertEquals(paperFaceUp ? Direction.UP : Direction.DOWN, participants[i].getDirection(), context,
+                    r -> "Direction of participant at index %d is incorrect".formatted(finalI));
+                paperFaceUp = !paperFaceUp;
+            }
+        }
+    }
+
+    @Test
+    public void testPlaceLineUp_callsReset() {
+        Species[] species = new Species[] {Species.ROCK, Species.PAPER, Species.SCISSORS, Species.PAPER, Species.ROCK};
+        Referee refereeInstance = new Referee(species);
+        Context context = contextBuilder()
+            .add("lineUp (constructor parameter 1)", species)
+            .build();
+
+        new Robot(5, 5);
+        call(() -> Links.REFEREE_PLACE_LINE_UP_METHOD_LINK.get().invoke(refereeInstance), context,
+            r -> "An exception occurred while invoking Referee.placeLineUp()");
+        Participant[] participants = Links.REFEREE_PARTICIPANTS_FIELD_LINK.get().get(refereeInstance);
+        assertTrue(Set.of(participants).containsAll(World.getGlobalWorld().getAllFieldEntities()), context,
+            r -> "Referee.placeLineUp() did not call World.reset()");
     }
 
     private Participant[] makeParticipantMocks(int amount) {
