@@ -125,16 +125,16 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 .addChildCriteria(
                     criterion(
                         "Die Methode getOpponent behandelt den Fall, dass der Gegner links ist, korrekt.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testGetOpponent_left"))),
                     criterion(
-                        "Die Methode getOpponent behandelt den Fall, dass der Gegner recht ist, korrekt.",
-                        (JUnitTestRef) null),
+                        "Die Methode getOpponent behandelt den Fall, dass der Gegner rechts ist, korrekt.",
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testGetOpponent_right"))),
                     criterion(
                         "Die Methode getOpponent behandelt den Fall korrekt, dass es keinen Gegner mehr gibt.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testGetOpponent_none"))),
                     criterion(
                         "Die Reihenfolge und Ausrichtungen der Teilnehmer nach Ablauf der Methode ist korrekt.",
-                        (JUnitTestRef) null)
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testGetOpponent_orientation")))
                 )
                 .build(),
             Criterion.builder()

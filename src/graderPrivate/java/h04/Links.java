@@ -56,4 +56,7 @@ public class Links {
     public static final Supplier<MethodLink> REFEREE_PLACE_LINE_UP_METHOD_LINK = Suppliers.memoize(() ->
         REFEREE_TYPE.get().getMethod(Matcher.of(methodLink -> methodLink.name().equals("placeLineUp")
             && methodLink.typeList().isEmpty())));
+    public static final Supplier<MethodLink> REFEREE_GET_OPPONENT_METHOD_LINK = Suppliers.memoize(() ->
+        REFEREE_TYPE.get().getMethod(Matcher.of(methodLink -> methodLink.name().equals("getOpponent")
+            && methodLink.typeList().equals(List.of(BasicTypeLink.of(Participant.class))))));
 }

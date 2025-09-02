@@ -280,6 +280,71 @@ public class RefereeTests {
             r -> "Referee.placeLineUp() did not call World.reset()");
     }
 
+    @Test
+    public void testGetOpponent_left() {
+        Participant[] participants = makeParticipantMocks(2);
+        Context context = contextBuilder()
+            .add("all participants", participants)
+            .add("participant (parameter 1)", participants[1])
+            .build();
+
+        Participant result = callObject(() -> Links.REFEREE_GET_OPPONENT_METHOD_LINK.get().invoke(refereeInstance, participants[1]), context,
+            r -> "An exception occurred while invoking Referee.getOpponent(Participant)");
+        assertSame(participants[0], result, context,
+            r -> "Referee.getOpponent(Participant) did not return the correct value");
+    }
+
+    @Test
+    public void testGetOpponent_right() {
+        Participant[] participants = makeParticipantMocks(2);
+        Context context = contextBuilder()
+            .add("all participants", participants)
+            .add("participant (parameter 1)", participants[0])
+            .build();
+
+        Participant result = callObject(() -> Links.REFEREE_GET_OPPONENT_METHOD_LINK.get().invoke(refereeInstance, participants[0]), context,
+            r -> "An exception occurred while invoking Referee.getOpponent(Participant)");
+        assertSame(participants[1], result, context,
+            r -> "Referee.getOpponent(Participant) did not return the correct value");
+    }
+
+    @Test
+    public void testGetOpponent_none() {
+        Participant[] participants = makeParticipantMocks(1);
+        Context context = contextBuilder()
+            .add("all participants", participants)
+            .add("participant (parameter 1)", participants[0])
+            .build();
+
+        Participant result = callObject(() -> Links.REFEREE_GET_OPPONENT_METHOD_LINK.get().invoke(refereeInstance, participants[0]), context,
+            r -> "An exception occurred while invoking Referee.getOpponent(Participant)");
+        assertNull(result, context,
+            r -> "Referee.getOpponent(Participant) did not return the correct value");
+    }
+
+    @Test
+    public void testGetOpponent_orientation() {
+        Participant[] participants = makeParticipantMocks(2);
+        Participant[] originalParticipants = Arrays.copyOf(participants, participants.length);
+
+        for (int i = 0; i < participants.length; i++) {
+            final int finalI = i;
+            Context context = contextBuilder()
+                .add("all participants", participants)
+                .add("participant (parameter 1)", participants[i])
+                .build();
+
+            call(() -> Links.REFEREE_GET_OPPONENT_METHOD_LINK.get().invoke(refereeInstance, participants[finalI]), context,
+                r -> "An exception occurred while invoking Referee.getOpponent(Participant)");
+            assertEquals(i, originalParticipants[i].getX(), context,
+                r -> "Referee.getOpponent(Participant) moved the participant from its position");
+            assertEquals(0, originalParticipants[i].getY(), context,
+                r -> "Referee.getOpponent(Participant) moved the participant from its position");
+            assertEquals(originalParticipants[i].getOrientation(), originalParticipants[i].getDirection(), context,
+                r -> "Referee.getOpponent(Participant) did not make the participant face its default direction");
+        }
+    }
+
     private Participant[] makeParticipantMocks(int amount) {
         Participant[] result = new Participant[amount];
         Species[] species = Species.values();
