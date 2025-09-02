@@ -142,10 +142,10 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 .addChildCriteria(
                     criterion(
                         "Die Länge und Einträge des Zurückgegeben Arrays sind korrekt.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testDetermineVictors_checkArray", int.class))),
                     criterion(
                         "Die Verlierer sind alle deaktiviert worden.",
-                        (JUnitTestRef) null)
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testDetermineVictors_losersTurnedOff", int.class)))
                 )
                 .build(),
             Criterion.builder()

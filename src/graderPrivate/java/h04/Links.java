@@ -59,4 +59,7 @@ public class Links {
     public static final Supplier<MethodLink> REFEREE_GET_OPPONENT_METHOD_LINK = Suppliers.memoize(() ->
         REFEREE_TYPE.get().getMethod(Matcher.of(methodLink -> methodLink.name().equals("getOpponent")
             && methodLink.typeList().equals(List.of(BasicTypeLink.of(Participant.class))))));
+    public static final Supplier<MethodLink> REFEREE_DETERMINE_VICTORS_METHOD_LINK = Suppliers.memoize(() ->
+        REFEREE_TYPE.get().getMethod(Matcher.of(methodLink -> methodLink.name().equals("determineVictors")
+            && methodLink.typeList().equals(List.of(BasicTypeLink.of(Participant[].class))))));
 }

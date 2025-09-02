@@ -12,6 +12,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
@@ -342,6 +344,69 @@ public class RefereeTests {
                 r -> "Referee.getOpponent(Participant) moved the participant from its position");
             assertEquals(originalParticipants[i].getOrientation(), originalParticipants[i].getDirection(), context,
                 r -> "Referee.getOpponent(Participant) did not make the participant face its default direction");
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {4, 5})
+    public void testDetermineVictors_checkArray(int participantsAmount) {
+        testVictors(participantsAmount, false);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {4, 5})
+    public void testDetermineVictors_losersTurnedOff(int participantsAmount) {
+        testVictors(participantsAmount, true);
+    }
+
+    @SuppressWarnings("SuspiciousMethodCalls")
+    private void testVictors(int participantsAmount, boolean checkLosersTurnedOff) {
+        Participant[] participants = makeParticipantMocks(participantsAmount);
+        List<Participant> originalParticipants = List.of(participants);
+        Answer<?> refereeAnswer = invocation -> {
+            Method invokedMethod = invocation.getMethod();
+            int index = originalParticipants.indexOf(invocation.getArgument(0));
+            if (TestUtils.methodSignatureEquals(invokedMethod, "playMatchUp", Participant.class)) {
+                if (index == originalParticipants.size() - 1) {
+                    return invocation.getArgument(0);
+                } else {
+                    return originalParticipants.get(index / 2);
+                }
+            } else if (TestUtils.methodSignatureEquals(invokedMethod, "getOpponent", Participant.class)) {
+                if (index == originalParticipants.size() - 1) {
+                    return null;
+                } else {
+                    return originalParticipants.get(index % 2 == 0 ? index + 1 : index - 1);
+                }
+            } else {
+                return invocation.callRealMethod();
+            }
+        };
+        Referee refereeMock = Mockito.mock(Referee.class, refereeAnswer);
+        Context context = contextBuilder()
+            .add("participants (parameter 1)", participants)
+            .build();
+
+        Participant[] result = callObject(() -> Links.REFEREE_DETERMINE_VICTORS_METHOD_LINK.get().invoke(refereeMock, (Object) participants), context,
+            r -> "An exception occurred while invoking Referee.determineVictors(Participant[])");
+        int expectedLength = participantsAmount / 2 + (participantsAmount % 2 == 0 ? 0 : 1);
+        assertNotNull(result, context,
+            r -> "The array returned by Referee.determineVictors(Participant[]) is null");
+        assertEquals(expectedLength, result.length, context,
+            r -> "The length of the array returned by Referee.determineVictors(Participant[]) is incorrect");
+        for (int i = 0; i < expectedLength; i++) {
+            final int finalI = i;
+            assertSame(originalParticipants.get(i * 2), result[i], context,
+                r -> "The participant at index %d is incorrect".formatted(finalI));
+        }
+        if (checkLosersTurnedOff) {
+            List<Participant> victors = List.of(result);
+            for (Participant participant : originalParticipants) {
+                if (!victors.contains(participant)) {
+                    assertTrue(participant.isTurnedOff(), context,
+                        r -> "The loser %s was not turned off".formatted(participant));
+                }
+            }
         }
     }
 
