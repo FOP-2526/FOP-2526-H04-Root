@@ -12,12 +12,14 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
+import org.sourcegrade.jagr.api.testing.extension.JagrExecutionCondition;
 import org.tudalgo.algoutils.tutor.general.assertions.Context;
 import org.tudalgo.algoutils.tutor.general.reflections.TypeLink;
 
@@ -98,6 +100,8 @@ public class RefereeTests {
         World.setVisible(false);
 
         refereeInstance = new Referee();
+
+        DELEGATES.clear();
     }
 
     @AfterAll
@@ -350,12 +354,14 @@ public class RefereeTests {
 
     @ParameterizedTest
     @ValueSource(ints = {4, 5})
+    @ExtendWith(JagrExecutionCondition.class)
     public void testDetermineVictors_checkArray(int participantsAmount) {
         testVictors(participantsAmount, false);
     }
 
     @ParameterizedTest
     @ValueSource(ints = {4, 5})
+    @ExtendWith(JagrExecutionCondition.class)
     public void testDetermineVictors_losersTurnedOff(int participantsAmount) {
         testVictors(participantsAmount, true);
     }
@@ -371,7 +377,7 @@ public class RefereeTests {
                 if (index == originalParticipants.size() - 1) {
                     return invocation.getArgument(0);
                 } else {
-                    return originalParticipants.get(index / 2);
+                    return originalParticipants.get(index % 2 == 0 ? index : index - 1);
                 }
             } else if (TestUtils.methodSignatureEquals(invokedMethod, "getOpponent", Participant.class)) {
                 if (index == originalParticipants.size() - 1) {
@@ -404,6 +410,7 @@ public class RefereeTests {
             List<Participant> victors = List.of(result);
             for (Participant participant : originalParticipants) {
                 if (!victors.contains(participant)) {
+                    // FIXME: won't work because Participant.fight(...) is never called
                     assertTrue(participant.isTurnedOff(), context,
                         r -> "The loser %s was not turned off".formatted(participant));
                 }
@@ -416,11 +423,13 @@ public class RefereeTests {
     }
 
     @Test
+    @ExtendWith(JagrExecutionCondition.class)
     public void testDoRound_methodCalls() {
         testDoRound(DoRound_CheckMode.METHOD_CALLS);
     }
 
     @Test
+    @ExtendWith(JagrExecutionCondition.class)
     public void testDoRound_setField() {
         testDoRound(DoRound_CheckMode.PARTICIPANTS_FIELD);
     }
@@ -469,12 +478,13 @@ public class RefereeTests {
     private Participant[] makeParticipantMocks(int amount) {
         Participant[] result = new Participant[amount];
         Species[] species = Species.values();
-        Direction[] directions = Direction.values();
 
         for (int i = 0; i < amount; i++) {
             Participant participant = Mockito.mock(Participant.class, Mockito.withSettings()
-                .useConstructor(species[i % species.length], i, 0, directions[i % directions.length])
+                .useConstructor(species[i % species.length], i, 0, Direction.UP)
                 .defaultAnswer(Mockito.CALLS_REAL_METHODS));
+            Mockito.when(participant.fight(Mockito.any())).thenReturn(participant);
+            Mockito.doNothing().when(participant).doVictoryDance();
             result[i] = participant;
         }
 

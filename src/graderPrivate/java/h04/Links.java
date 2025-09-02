@@ -45,8 +45,6 @@ public class Links {
         BASE_PACKAGE_LINK.getType(Matcher.of(typeLink -> typeLink.name().equals("Referee"))));
     public static final Supplier<FieldLink> REFEREE_PARTICIPANTS_FIELD_LINK = Suppliers.memoize(() ->
         REFEREE_TYPE.get().getField(Matcher.of(fieldLink -> fieldLink.name().equals("participants"))));
-    public static final Supplier<FieldLink> REFEREE_LINE_UP_FIELD_LINK = Suppliers.memoize(() ->
-        REFEREE_TYPE.get().getField(Matcher.of(fieldLink -> fieldLink.name().equals("lineUp"))));
     public static final Supplier<MethodLink> REFEREE_ASCEND_METHOD_LINK = Suppliers.memoize(() ->
         REFEREE_TYPE.get().getMethod(Matcher.of(methodLink -> methodLink.name().equals("ascend")
             && methodLink.typeList().equals(List.of(BasicTypeLink.of(Participant[].class))))));
