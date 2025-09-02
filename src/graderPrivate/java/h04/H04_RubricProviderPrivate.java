@@ -88,19 +88,19 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 .addChildCriteria(
                     criterion(
                         "Die Methode ascend bewegt alle Teilnehmer nach oben und in keine andere Richtung.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testAscend_movesUp"))),
                     criterion(
                         "Die Reihenfolge und Ausrichtungen der Teilnehmer nach Ablauf der Methode ascend ist korrekt.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testAscend_orientation"))),
                     criterion(
                         "Die Methode moveUp bewegt alle Teilnehmer nach links und in keine andere Richtung.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testMoveUp_leftOnly"))),
                     criterion(
                         "Nach der Methode moveUp sind zwischen den einzelnen Teilnehmern, sowie der linken Wand keine Lücken.",
-                        (JUnitTestRef) null),
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testMoveUp_noSpaces"))),
                     criterion(
                         "Die Reihenfolge und Ausrichtungen der Teilnehmer nach Ablauf der Methode moveUp ist korrekt.",
-                        (JUnitTestRef) null)
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testMoveUp_orientation")))
                 )
                 .build(),
             Criterion.builder()
