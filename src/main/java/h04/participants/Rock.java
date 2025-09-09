@@ -24,6 +24,7 @@ public class Rock extends Participant {
      */
     public Rock(int x, int y) {
         super(Species.ROCK, x, y, Direction.UP);
+        setRobotFamily(ROCK_FAMILY);
         setNumberOfCoins(3);
     }
 

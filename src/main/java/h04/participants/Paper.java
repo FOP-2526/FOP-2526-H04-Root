@@ -27,6 +27,7 @@ public class Paper extends Participant {
     public Paper(int x, int y) {
         super(Species.PAPER, x, y, NUMBER_OF_PAPERS++ % 2 == 0 ? Direction.UP : Direction.DOWN);
         setNumberOfCoins(2);
+        setRobotFamily(PAPER_FAMILY);
         startingXPosition = x;
     }
 

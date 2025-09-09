@@ -1,9 +1,9 @@
 package h04.participants;
 
-import fopbot.Direction;
-import fopbot.Robot;
-import fopbot.RobotFamily;
+import fopbot.*;
 import org.tudalgo.algoutils.student.annotation.DoNotTouch;
+
+import java.awt.Color;
 
 /**
  * Base class for the participants in a rock paper scissors tournament.
@@ -14,6 +14,30 @@ import org.tudalgo.algoutils.student.annotation.DoNotTouch;
  */
 @DoNotTouch
 public abstract class Participant extends Robot {
+
+    public static final RobotFamily ROCK_FAMILY
+        = new SvgBasedRobotFamily(
+            "ROCK",
+            "/Rock.svg",
+            "/Rock.off.svg",
+            Color.RED
+        );
+
+    public static final RobotFamily PAPER_FAMILY
+        = new SvgBasedRobotFamily(
+            "PAPER",
+            "/Paper.svg",
+            "/Paper.off.svg",
+            Color.BLUE
+        );
+
+    public static final RobotFamily SCISSORS_FAMILY
+        = new SvgBasedRobotFamily(
+            "SCISSORS",
+            "/Scissors.svg",
+            "/Scissors.off.svg",
+            Color.GREEN
+        );
 
     /**
      * The orientation of a participant saved between rounds.
@@ -36,17 +60,9 @@ public abstract class Participant extends Robot {
      */
     protected Participant(Species species, int x, int y, Direction orientation) {
         super(x, y);
-
         this.species = species;
-        if (species == Species.PAPER) {
-            setRobotFamily(RobotFamily.SQUARE_BLUE);
-        } else if (species == Species.SCISSORS) {
-            setRobotFamily(RobotFamily.SQUARE_GREEN);
-        } else if (species == Species.ROCK) {
-            setRobotFamily(RobotFamily.SQUARE_RED);
-        }
-
         this.orientation = orientation;
+
         while (getDirection() != orientation) {
             turnLeft();
         }
