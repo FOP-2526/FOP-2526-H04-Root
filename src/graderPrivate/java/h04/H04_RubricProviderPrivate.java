@@ -137,10 +137,10 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 .shortDescription("H1.2.4 | Die Sieger finden")
                 .addChildCriteria(
                     criterion(
-                        "Die Länge und Einträge des Zurückgegeben Arrays sind korrekt.",
+                        "Die Länge des zurückgegeben Arrays wird immer korrekt berechnet.",
                         (JUnitTestRef) null),
                     criterion(
-                        "Die Verlierer sind alle deaktiviert worden.",
+                        "Die Einträge des zurückgegeben Arrays werden immer korrekt berechnet.",
                         (JUnitTestRef) null)
                 )
                 .build(),
