@@ -4,6 +4,7 @@ import fopbot.Direction;
 import fopbot.Transition;
 import fopbot.World;
 import h04.Links;
+import h04.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -28,8 +29,7 @@ public class PaperTests extends AbstractParticipantTests {
     @BeforeEach
     public void setup() {
         try {
-            FieldLink numberOfPapersFieldLink = Links.PAPER_NUMBER_OF_PAPERS_FIELD_LINK.get();
-            numberOfPapersFieldLink.set(0);
+            TestUtils.setNumericField(Links.PAPER_NUMBER_OF_PAPERS_FIELD_LINK.get(), null, 0);
         } catch (Exception e) {
             System.err.println("Could not set field NUMBER_OF_PAPERS in class h04.participants.Paper");
             //noinspection CallToPrintStackTrace
@@ -43,8 +43,8 @@ public class PaperTests extends AbstractParticipantTests {
 
         FieldLink numberOfPapersFieldLink = assertCallNotNull(Links.PAPER_NUMBER_OF_PAPERS_FIELD_LINK::get, emptyContext(),
             r -> "Could not find field NUMBER_OF_PAPERS in class h04.participants.Paper");
-        assertEquals(int.class, numberOfPapersFieldLink.type().reflection(), emptyContext(),
-            r -> "Field NUMBER_OF_PAPERS in class h04.participants.Paper is not of type int");
+        assertTrue(TestUtils.isNumericType(numberOfPapersFieldLink.reflection().getType()), emptyContext(),
+            r -> "Field NUMBER_OF_PAPERS in class h04.participants.Paper is not of a numeric type");
         assertTrue((numberOfPapersFieldLink.modifiers() & Modifier.STATIC) != 0, emptyContext(),
             r -> "Field NUMBER_OF_PAPERS in class h04.participants.Paper is not static");
         assertFalse((numberOfPapersFieldLink.modifiers() & Modifier.FINAL) != 0, emptyContext(),
@@ -52,8 +52,8 @@ public class PaperTests extends AbstractParticipantTests {
 
         FieldLink startingXPositionFieldLink = assertCallNotNull(Links.PAPER_STARTING_X_POSITION_FIELD_LINK::get, emptyContext(),
             r -> "Could not find field startingXPosition in class h04.participants.Paper");
-        assertEquals(int.class, startingXPositionFieldLink.type().reflection(), emptyContext(),
-            r -> "Field startingXPosition in class h04.participants.Paper is not of type int");
+        assertTrue(TestUtils.isNumericType(startingXPositionFieldLink.reflection().getType()), emptyContext(),
+            r -> "Field startingXPosition in class h04.participants.Paper is not of a numeric type");
         assertFalse((startingXPositionFieldLink.modifiers() & Modifier.STATIC) != 0, emptyContext(),
             r -> "Field startingXPosition in class h04.participants.Paper is static");
         assertTrue((startingXPositionFieldLink.modifiers() & Modifier.FINAL) != 0, emptyContext(),
@@ -63,11 +63,14 @@ public class PaperTests extends AbstractParticipantTests {
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3})
     public void testConstructor(int numberOfPapersValue) {
-        Links.PAPER_NUMBER_OF_PAPERS_FIELD_LINK.get().set(numberOfPapersValue);
+        TestUtils.setNumericField(Links.PAPER_NUMBER_OF_PAPERS_FIELD_LINK.get(), null, numberOfPapersValue);
 
         Participant paperInstance = super.testConstructor(Links.PAPER_CONSTRUCTOR_LINK, "Paper", Species.PAPER,
             numberOfPapersValue % 2 == 0 ? Direction.UP : Direction.DOWN);
-        assertCallEquals(0, () -> Links.PAPER_STARTING_X_POSITION_FIELD_LINK.get().get(paperInstance), emptyContext(),
+        FieldLink startingXPositionFieldLink = Links.PAPER_STARTING_X_POSITION_FIELD_LINK.get();
+        assertCallEquals(TestUtils.toFittingType(startingXPositionFieldLink.reflection().getType(), 0),
+            () -> startingXPositionFieldLink.get(paperInstance),
+            emptyContext(),
             r -> "Field startingXPosition in class h04.participants.Paper does not have the correct value");
         assertEquals(2, paperInstance.getNumberOfCoins(), emptyContext(),
             r -> "Paper-Robot does not have the correct amount of coins after initializing");

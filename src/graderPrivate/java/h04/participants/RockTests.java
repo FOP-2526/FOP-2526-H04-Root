@@ -4,6 +4,7 @@ import fopbot.Direction;
 import fopbot.Transition;
 import fopbot.World;
 import h04.Links;
+import h04.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -31,8 +32,8 @@ public class RockTests extends AbstractParticipantTests {
 
         FieldLink roundsWonFieldLink = assertCallNotNull(Links.ROCK_ROUNDS_WON_FIELD_LINK::get, emptyContext(),
             r -> "Could not find field roundsWon in class h04.participants.Rock");
-        assertEquals(int.class, roundsWonFieldLink.type().reflection(), emptyContext(),
-            r -> "Field roundsWon in class h04.participants.Rock is not of type int");
+        assertTrue(TestUtils.isNumericType(roundsWonFieldLink.reflection().getType()), emptyContext(),
+            r -> "Field roundsWon in class h04.participants.Rock is not of a numeric type");
         assertFalse((roundsWonFieldLink.modifiers() & Modifier.STATIC) != 0, emptyContext(),
             r -> "Field roundsWon in class h04.participants.Rock is static");
         assertFalse((roundsWonFieldLink.modifiers() & Modifier.FINAL) != 0, emptyContext(),
@@ -42,8 +43,11 @@ public class RockTests extends AbstractParticipantTests {
     @Test
     public void testConstructor() {
         Participant rockInstance = super.testConstructor(Links.ROCK_CONSTRUCTOR_LINK, "Rock", Species.ROCK, Direction.UP);
+        FieldLink roundsWonFieldLink = Links.ROCK_ROUNDS_WON_FIELD_LINK.get();
 
-        assertCallEquals(0, () -> Links.ROCK_ROUNDS_WON_FIELD_LINK.get().get(rockInstance), emptyContext(),
+        assertCallEquals(TestUtils.toFittingType(roundsWonFieldLink.reflection().getType(), 0),
+            () -> roundsWonFieldLink.get(rockInstance),
+            emptyContext(),
             r -> "Field roundsWon in class h04.participants.Rock does not have the correct value");
         assertEquals(3, rockInstance.getNumberOfCoins(), emptyContext(),
             r -> "Rock-Robot does not have the correct amount of coins after initializing");
@@ -64,7 +68,7 @@ public class RockTests extends AbstractParticipantTests {
             .build();
         Participant rockInstance = callObject(() -> Links.ROCK_CONSTRUCTOR_LINK.get().invoke(0, 0), context,
             r -> "An exception occurred while invoking Rock(int, int)");
-        Links.ROCK_ROUNDS_WON_FIELD_LINK.get().set(rockInstance, roundsWon);
+        TestUtils.setNumericField(Links.ROCK_ROUNDS_WON_FIELD_LINK.get(), rockInstance, roundsWon);
 
         call(rockInstance::doVictoryDance, context,
             r -> "An exception occurred while invoking Rock.doVictoryDance()");
@@ -140,19 +144,24 @@ public class RockTests extends AbstractParticipantTests {
 
         Participant victor = callObject(() -> rockInstance.fight(participantMock), context,
             r -> "An exception occurred while invoking Rock.fight(Participant)");
+        FieldLink roundsWonFieldLink = Links.ROCK_ROUNDS_WON_FIELD_LINK.get();
         if (expectedOutcome == Outcome.WIN) {
             assertSame(rockInstance, victor, context,
                     r -> "Rock.fight(Participant) did not return the correct value (itself / 'this')");
             assertTrue(participantMock.isTurnedOff(), context,
                     r -> "Rock.fight(Participant) did not turn off the losing opponent");
-            assertEquals(1, Links.ROCK_ROUNDS_WON_FIELD_LINK.get().get(rockInstance), context,
+            assertEquals(TestUtils.toFittingType(roundsWonFieldLink.reflection().getType(), 1),
+                roundsWonFieldLink.get(rockInstance),
+                context,
                 r -> "Rock.fight(Participant) did not increment its roundsWon field");
         } else {
             assertSame(participantMock, victor, context,
                 r -> "Rock.fight(Participant) did not return the correct value (opponent)");
             assertTrue(rockInstance.isTurnedOff(), context,
                 r -> "Rock.fight(Participant) did not turn itself off despite losing");
-            assertEquals(0, Links.ROCK_ROUNDS_WON_FIELD_LINK.get().get(rockInstance), context,
+            assertEquals(TestUtils.toFittingType(roundsWonFieldLink.reflection().getType(), 0),
+                roundsWonFieldLink.get(rockInstance),
+                context,
                 r -> "Rock.fight(Participant) was not supposed to increment its roundsWon field");
         }
     }
