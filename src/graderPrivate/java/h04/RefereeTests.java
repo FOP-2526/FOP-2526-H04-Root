@@ -355,19 +355,19 @@ public class RefereeTests {
     @ParameterizedTest
     @ValueSource(ints = {4, 5})
     @ExtendWith(JagrExecutionCondition.class)
-    public void testDetermineVictors_checkArray(int participantsAmount) {
+    public void testDetermineVictors_checkArrayLength(int participantsAmount) {
         testVictors(participantsAmount, false);
     }
 
     @ParameterizedTest
     @ValueSource(ints = {4, 5})
     @ExtendWith(JagrExecutionCondition.class)
-    public void testDetermineVictors_losersTurnedOff(int participantsAmount) {
+    public void testDetermineVictors_checkArrayEntries(int participantsAmount) {
         testVictors(participantsAmount, true);
     }
 
     @SuppressWarnings("SuspiciousMethodCalls")
-    private void testVictors(int participantsAmount, boolean checkLosersTurnedOff) {
+    private void testVictors(int participantsAmount, boolean checkArrayEntries) {
         Participant[] participants = makeParticipantMocks(participantsAmount);
         List<Participant> originalParticipants = List.of(participants);
         Answer<?> refereeAnswer = invocation -> {
@@ -401,19 +401,12 @@ public class RefereeTests {
             r -> "The array returned by Referee.determineVictors(Participant[]) is null");
         assertEquals(expectedLength, result.length, context,
             r -> "The length of the array returned by Referee.determineVictors(Participant[]) is incorrect");
-        for (int i = 0; i < expectedLength; i++) {
-            final int finalI = i;
-            assertSame(originalParticipants.get(i * 2), result[i], context,
-                r -> "The participant at index %d is incorrect".formatted(finalI));
-        }
-        if (checkLosersTurnedOff) {
-            List<Participant> victors = List.of(result);
-            for (Participant participant : originalParticipants) {
-                if (!victors.contains(participant)) {
-                    // FIXME: won't work because Participant.fight(...) is never called
-                    assertTrue(participant.isTurnedOff(), context,
-                        r -> "The loser %s was not turned off".formatted(participant));
-                }
+
+        if (checkArrayEntries) {
+            for (int i = 0; i < expectedLength; i++) {
+                final int finalI = i;
+                assertSame(originalParticipants.get(i * 2), result[i], context,
+                    r -> "The participant at index %d is incorrect".formatted(finalI));
             }
         }
     }

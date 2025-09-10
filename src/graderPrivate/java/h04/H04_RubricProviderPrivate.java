@@ -141,11 +141,11 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 .shortDescription("H4.2.4 | Die Sieger finden")
                 .addChildCriteria(
                     criterion(
-                        "Die Länge und Einträge des Zurückgegeben Arrays sind korrekt.",
-                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testDetermineVictors_checkArray", int.class))),
+                        "Die Länge des zurückgegeben Arrays wird immer korrekt berechnet.",
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testDetermineVictors_checkArrayLength", int.class))),
                     criterion(
-                        "Die Verlierer sind alle deaktiviert worden.",
-                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testDetermineVictors_losersTurnedOff", int.class)))
+                        "Die Einträge des zurückgegeben Arrays werden immer korrekt berechnet.",
+                        JUnitTestRef.ofMethod(() -> RefereeTests.class.getDeclaredMethod("testDetermineVictors_checkArrayEntries", int.class)))
                 )
                 .build(),
             Criterion.builder()
