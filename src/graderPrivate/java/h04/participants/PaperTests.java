@@ -76,12 +76,13 @@ public class PaperTests extends AbstractParticipantTests {
     @ParameterizedTest
     @ValueSource(ints = {2, 3, 4})
     public void testDoVictoryDance(int lanes) {
-        World.setSize(8, 1);
+        int worldSize = 8;
+        World.setSize(worldSize, worldSize);
         World.setDelay(0);
         World.setVisible(false);
 
         Context context = contextBuilder()
-            .add("world dimensions (w x h)", "%d x %d".formatted(8, 1))
+            .add("world dimensions (w x h)", "%d x %d".formatted(worldSize, worldSize))
             .add("initial position", "(%d, 0)".formatted(lanes))
             .build();
         Participant paperInstance = callObject(() -> Links.PAPER_CONSTRUCTOR_LINK.get().invoke(lanes, 0), context,
@@ -137,12 +138,13 @@ public class PaperTests extends AbstractParticipantTests {
     }
 
     private void testFight(Outcome expectedOutcome, Species opponentSpecies) {
-        World.setSize(2, 2);
+        int worldSize = 2;
+        World.setSize(worldSize, worldSize);
         World.setDelay(0);
         World.setVisible(false);
 
         Context context = contextBuilder()
-            .add("world dimensions (w x h)", "%d x %d".formatted(2, 2))
+            .add("world dimensions (w x h)", "%d x %d".formatted(worldSize, worldSize))
             .add("Paper initial position", "(0, 0)")
             .add("opponent initial position", "(1, 0)")
             .add("opponent species", opponentSpecies)

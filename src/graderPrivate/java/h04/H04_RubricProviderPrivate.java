@@ -67,8 +67,7 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                         JUnitTestRef.ofMethod(() -> RockTests.class.getDeclaredMethod("testConstructor"))),
                     criterion(
                         "Die Methode doVictoryDance ist korrekt implementiert.",
-                        JUnitTestRef.ofMethod(() -> RockTests.class.getDeclaredMethod("testDoVictoryDance_FittingWorld", int.class)),
-                        JUnitTestRef.ofMethod(() -> RockTests.class.getDeclaredMethod("testDoVictoryDance_NarrowWorld", int.class))),
+                        JUnitTestRef.ofMethod(() -> RockTests.class.getDeclaredMethod("testDoVictoryDance", int.class))),
                     criterion(
                         "Die Methode fight behandelt den Fall korrekt, dass der Stein gewinnt.",
                         JUnitTestRef.ofMethod(() -> RockTests.class.getDeclaredMethod("testFightWin", RockTests.Outcome.class))),

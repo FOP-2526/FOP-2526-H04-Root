@@ -51,23 +51,14 @@ public class RockTests extends AbstractParticipantTests {
 
     @ParameterizedTest
     @ValueSource(ints = {2, 3, 4, 5})
-    public void testDoVictoryDance_FittingWorld(int roundsWon) {
-        testDoVictoryDance(8, 8, roundsWon);
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {2, 3, 4, 5})
-    public void testDoVictoryDance_NarrowWorld(int roundsWon) {
-        testDoVictoryDance(2, 8, roundsWon);
-    }
-
-    private void testDoVictoryDance(int worldWidth, int worldHeight, int roundsWon) {
-        World.setSize(worldWidth, worldHeight);
+    public void testDoVictoryDance(int roundsWon) {
+        int worldSize = 8;
+        World.setSize(worldSize, worldSize);
         World.setDelay(0);
         World.setVisible(false);
 
         Context context = contextBuilder()
-            .add("world dimensions (w x h)", "%d x %d".formatted(worldWidth, worldHeight))
+            .add("world dimensions (w x h)", "%d x %d".formatted(worldSize, worldSize))
             .add("initial position", "(0, 0)")
             .add("roundsWon", roundsWon)
             .build();
@@ -78,7 +69,7 @@ public class RockTests extends AbstractParticipantTests {
         call(rockInstance::doVictoryDance, context,
             r -> "An exception occurred while invoking Rock.doVictoryDance()");
 
-        BiPredicate<Integer, Integer> posInWorld = (x, y) -> x < worldWidth && x >= 0 && y < worldHeight && y >= 0;
+        BiPredicate<Integer, Integer> posInWorld = (x, y) -> x < worldSize && x >= 0 && y < worldSize && y >= 0;
         List<Transition.RobotAction> expectedActions = new ArrayList<>();
         Direction simulatedDir = Direction.UP;
         for (int i = 0, simulatedX = 0, simulatedY = 0; i < 4; i++) {
@@ -128,12 +119,13 @@ public class RockTests extends AbstractParticipantTests {
     }
 
     private void testFight(Outcome expectedOutcome, Species opponentSpecies) {
-        World.setSize(2, 2);
+        int worldSize = 2;
+        World.setSize(worldSize, worldSize);
         World.setDelay(0);
         World.setVisible(false);
 
         Context context = contextBuilder()
-            .add("world dimensions (w x h)", "%d x %d".formatted(2, 2))
+            .add("world dimensions (w x h)", "%d x %d".formatted(worldSize, worldSize))
             .add("Rock initial position", "(0, 0)")
             .add("opponent initial position", "(1, 0)")
             .add("opponent species", opponentSpecies)

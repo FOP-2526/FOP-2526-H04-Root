@@ -33,14 +33,14 @@ public class ScissorsTests extends AbstractParticipantTests {
 
     @ParameterizedTest
     @ValueSource(ints = {2, 8})
-    public void testDoVictoryDance(int worldWidth) {
-        World.setSize(worldWidth, 1);
+    public void testDoVictoryDance(int worldSize) {
+        World.setSize(worldSize, worldSize);
         World.setDelay(0);
         World.setVisible(false);
 
         int initialCoins = 5;
         Context context = contextBuilder()
-            .add("world dimensions (w x h)", "%d x %d".formatted(worldWidth, 1))
+            .add("world dimensions (w x h)", "%d x %d".formatted(worldSize, worldSize))
             .add("initial position", "(0, 0)")
             .add("initial coins", initialCoins)
             .build();
@@ -50,15 +50,15 @@ public class ScissorsTests extends AbstractParticipantTests {
 
         call(scissorInstance::doVictoryDance, context,
             r -> "An exception occurred while invoking Scissors.doVictoryDance()");
-        assertEquals(Math.min(worldWidth - 1, initialCoins), scissorInstance.getX(), context,
+        assertEquals(Math.min(worldSize - 1, initialCoins), scissorInstance.getX(), context,
             r -> "Scissors.doVictoryDance() did not move the robot to the correct X coordinate");
         assertEquals(0, scissorInstance.getY(), context,
             r -> "Scissors.doVictoryDance() moved the robot from its Y coordinate");
         assertEquals(Direction.RIGHT, scissorInstance.getDirection(), context,
             r -> "Scissors.doVictoryDance() did make the robot face the correct direction");
-        assertEquals(Math.max(initialCoins - worldWidth + 1, 0), scissorInstance.getNumberOfCoins(), context,
+        assertEquals(Math.max(initialCoins - worldSize + 1, 0), scissorInstance.getNumberOfCoins(), context,
             r -> "Scissors.doVictoryDance() did not make the robot place the correct number of coins");
-        IntStream.range(0, Math.min(worldWidth - 1, initialCoins))
+        IntStream.range(0, Math.min(worldSize - 1, initialCoins))
             .mapToObj(x -> Map.entry(new Point(x, 0), World.getGlobalWorld()
                 .getField(x, 0)
                 .getEntities()
@@ -96,13 +96,14 @@ public class ScissorsTests extends AbstractParticipantTests {
     }
 
     private void testFight(Outcome expectedOutcome, Species opponentSpecies) {
-        World.setSize(2, 2);
+        int worldSize = 2;
+        World.setSize(worldSize, worldSize);
         World.setDelay(0);
         World.setVisible(false);
 
         int initialCoins = 5;
         Context context = contextBuilder()
-            .add("world dimensions (w x h)", "%d x %d".formatted(2, 2))
+            .add("world dimensions (w x h)", "%d x %d".formatted(worldSize, worldSize))
             .add("Scissor initial position", "(0, 0)")
             .add("Scissor initial coins", 0)
             .add("opponent initial position", "(1, 0)")
