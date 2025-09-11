@@ -104,7 +104,7 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                 )
                 .build(),
             Criterion.builder()
-                .shortDescription("H4.2.2 | Zur nächsten Runde laufen")
+                .shortDescription("H4.2.2 | Die Startaufstellung")
                 .addChildCriteria(
                     criterion(
                         "Nach der Methode ist die Länge des Teilnehmer-Arrays korrekt.",
