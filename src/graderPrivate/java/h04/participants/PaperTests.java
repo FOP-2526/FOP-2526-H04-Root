@@ -31,7 +31,7 @@ public class PaperTests extends AbstractParticipantTests {
         try {
             TestUtils.setNumericField(Links.PAPER_NUMBER_OF_PAPERS_FIELD_LINK.get(), null, 0);
         } catch (Exception e) {
-            System.err.println("Could not set field NUMBER_OF_PAPERS in class h04.participants.Paper");
+            System.err.println("Could not set field numberOfPapers in class h04.participants.Paper");
             //noinspection CallToPrintStackTrace
             e.printStackTrace();
         }
@@ -42,13 +42,13 @@ public class PaperTests extends AbstractParticipantTests {
         super.testDefinition(Links.PAPER_TYPE, "Paper");
 
         FieldLink numberOfPapersFieldLink = assertCallNotNull(Links.PAPER_NUMBER_OF_PAPERS_FIELD_LINK::get, emptyContext(),
-            r -> "Could not find field NUMBER_OF_PAPERS in class h04.participants.Paper");
+            r -> "Could not find field numberOfPapers in class h04.participants.Paper");
         assertTrue(TestUtils.isNumericType(numberOfPapersFieldLink.reflection().getType()), emptyContext(),
-            r -> "Field NUMBER_OF_PAPERS in class h04.participants.Paper is not of a numeric type");
+            r -> "Field numberOfPapers in class h04.participants.Paper is not of a numeric type");
         assertTrue((numberOfPapersFieldLink.modifiers() & Modifier.STATIC) != 0, emptyContext(),
-            r -> "Field NUMBER_OF_PAPERS in class h04.participants.Paper is not static");
+            r -> "Field numberOfPapers in class h04.participants.Paper is not static");
         assertFalse((numberOfPapersFieldLink.modifiers() & Modifier.FINAL) != 0, emptyContext(),
-            r -> "Field NUMBER_OF_PAPERS in class h04.participants.Paper is final");
+            r -> "Field numberOfPapers in class h04.participants.Paper is final");
 
         FieldLink startingXPositionFieldLink = assertCallNotNull(Links.PAPER_STARTING_X_POSITION_FIELD_LINK::get, emptyContext(),
             r -> "Could not find field startingXPosition in class h04.participants.Paper");

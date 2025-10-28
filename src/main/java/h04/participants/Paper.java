@@ -9,7 +9,7 @@ import fopbot.Direction;
  */
 public class Paper extends Participant {
 
-    private static int NUMBER_OF_PAPERS = 0;
+    private static int numberOfPapers = 0;
 
     /**
      * The initial x coordinate of this robot.
@@ -25,7 +25,7 @@ public class Paper extends Participant {
      * @param y The y coordinate
      */
     public Paper(int x, int y) {
-        super(Species.PAPER, x, y, NUMBER_OF_PAPERS++ % 2 == 0 ? Direction.UP : Direction.DOWN);
+        super(Species.PAPER, x, y, numberOfPapers++ % 2 == 0 ? Direction.UP : Direction.DOWN);
         setNumberOfCoins(2);
         setRobotFamily(PAPER_FAMILY);
         startingXPosition = x;

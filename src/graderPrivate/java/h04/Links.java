@@ -25,7 +25,9 @@ public class Links {
     public static final Supplier<ConstructorLink> PAPER_CONSTRUCTOR_LINK = Suppliers.memoize(() ->
         PAPER_TYPE.get().getConstructor(CONSTRUCTOR_MATCHER));
     public static final Supplier<FieldLink> PAPER_NUMBER_OF_PAPERS_FIELD_LINK = Suppliers.memoize(() ->
-        PAPER_TYPE.get().getField(Matcher.of(fieldLink -> fieldLink.name().equals("NUMBER_OF_PAPERS"))));
+        PAPER_TYPE.get().getField(Matcher.of(
+            fieldLink -> fieldLink.name().equals("numberOfPapers")
+                || fieldLink.name().equals("NUMBER_OF_PAPERS"))));
     public static final Supplier<FieldLink> PAPER_STARTING_X_POSITION_FIELD_LINK = Suppliers.memoize(() ->
         PAPER_TYPE.get().getField(Matcher.of(fieldLink -> fieldLink.name().equals("startingXPosition"))));
 
