@@ -3,10 +3,7 @@ package h04;
 import h04.participants.PaperTests;
 import h04.participants.RockTests;
 import h04.participants.ScissorsTests;
-import org.sourcegrade.jagr.api.rubric.Criterion;
-import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
-import org.sourcegrade.jagr.api.rubric.Rubric;
-import org.sourcegrade.jagr.api.rubric.RubricProvider;
+import org.sourcegrade.jagr.api.rubric.*;
 import org.sourcegrade.jagr.api.testing.RubricConfiguration;
 
 import static org.tudalgo.algoutils.tutor.general.jagr.RubricUtils.criterion;
@@ -29,10 +26,8 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                         "Die Methode doVictoryDance ist korrekt implementiert.",
                         JUnitTestRef.ofMethod(() -> ScissorsTests.class.getDeclaredMethod("testDoVictoryDance", int.class))),
                     criterion(
-                        "Die Methode fight behandelt den Fall korrekt, dass die Schere gewinnt.",
-                        JUnitTestRef.ofMethod(() -> ScissorsTests.class.getDeclaredMethod("testFightWin", ScissorsTests.Outcome.class)) ),
-                    criterion(
-                        "Die Methode fight behandelt alle anderen Fälle korrekt",
+                        "Die Methode fight ist korrekt implementiert.",
+                        JUnitTestRef.ofMethod(() -> ScissorsTests.class.getDeclaredMethod("testFightWin", ScissorsTests.Outcome.class)),
                         JUnitTestRef.ofMethod(() -> ScissorsTests.class.getDeclaredMethod("testFightOther", ScissorsTests.Outcome.class)))
                 )
                 .build(),
@@ -49,10 +44,8 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                         "Die Methode doVictoryDance ist korrekt implementiert.",
                         JUnitTestRef.ofMethod(() -> PaperTests.class.getDeclaredMethod("testDoVictoryDance", int.class))),
                     criterion(
-                        "Die Methode fight behandelt den Fall korrekt, dass das Papier gewinnt.",
-                        JUnitTestRef.ofMethod(() -> PaperTests.class.getDeclaredMethod("testFightWin", PaperTests.Outcome.class))),
-                    criterion(
-                        "Die Methode fight behandelt alle anderen Fälle korrekt",
+                        "Die Methode fight ist korrekt implementiert.",
+                        JUnitTestRef.ofMethod(() -> PaperTests.class.getDeclaredMethod("testFightWin", PaperTests.Outcome.class)),
                         JUnitTestRef.ofMethod(() -> PaperTests.class.getDeclaredMethod("testFightOther", PaperTests.Outcome.class)))
                 )
                 .build(),
@@ -69,10 +62,8 @@ public class H04_RubricProviderPrivate implements RubricProvider {
                         "Die Methode doVictoryDance ist korrekt implementiert.",
                         JUnitTestRef.ofMethod(() -> RockTests.class.getDeclaredMethod("testDoVictoryDance", int.class))),
                     criterion(
-                        "Die Methode fight behandelt den Fall korrekt, dass der Stein gewinnt.",
-                        JUnitTestRef.ofMethod(() -> RockTests.class.getDeclaredMethod("testFightWin", RockTests.Outcome.class))),
-                    criterion(
-                        "Die Methode fight behandelt alle anderen Fälle korrekt",
+                        "Die Methode fight ist korrekt implementiert.",
+                        JUnitTestRef.ofMethod(() -> RockTests.class.getDeclaredMethod("testFightWin", RockTests.Outcome.class)),
                         JUnitTestRef.ofMethod(() -> RockTests.class.getDeclaredMethod("testFightOther", RockTests.Outcome.class)))
                 )
                 .build()
@@ -162,9 +153,20 @@ public class H04_RubricProviderPrivate implements RubricProvider {
         )
         .build();
 
+    private static final Criterion JAVADOC = Criterion.builder()
+        .shortDescription("Dokumentation mit JavaDoc")
+        .addChildCriteria(Criterion.builder()
+            .shortDescription("Die Dokumentation entspricht den Vorgaben.")
+            .minPoints(0)
+            .maxPoints(3)
+            .grader((testCycle, criterion) -> GradeResult.of(0, 3,
+                "This criterion will be graded manually"))
+            .build())
+        .build();
+
     public static final Rubric RUBRIC = Rubric.builder()
         .title("H4 | Schere-Stein-Papier Turnier")
-        .addChildCriteria(H_1, H_2)
+        .addChildCriteria(H_1, H_2, JAVADOC)
         .build();
 
     @Override
