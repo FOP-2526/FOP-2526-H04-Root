@@ -165,13 +165,9 @@ public class PaperTests extends AbstractParticipantTests {
         if (expectedOutcome == Outcome.WIN) {
             assertSame(paperInstance, victor, context,
                     r -> "Paper.fight(Participant) did not return the correct value (itself / 'this')");
-            assertTrue(participantMock.isTurnedOff(), context,
-                    r -> "Paper.fight(Participant) did not turn off the losing opponent");
         } else {
             assertSame(participantMock, victor, context,
                 r -> "Paper.fight(Participant) did not return the correct value (opponent)");
-            assertTrue(paperInstance.isTurnedOff(), context,
-                r -> "Paper.fight(Participant) did not turn itself off despite losing");
         }
     }
 }

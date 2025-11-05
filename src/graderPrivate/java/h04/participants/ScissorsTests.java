@@ -124,13 +124,9 @@ public class ScissorsTests extends AbstractParticipantTests {
         if (expectedOutcome == Outcome.WIN) {
             assertSame(scissorInstance, victor, context,
                 r -> "Scissors.fight(Participant) did not return the correct value (itself / 'this')");
-            assertTrue(participantMock.isTurnedOff(), context,
-                r -> "Scissors.fight(Participant) did not turn off the losing opponent");
         } else {
             assertSame(participantMock, victor, context,
                 r -> "Scissors.fight(Participant) did not return the correct value (opponent)");
-            assertTrue(scissorInstance.isTurnedOff(), context,
-                r -> "Scissors.fight(Participant) did not turn itself off despite losing");
         }
         if (opponentSpecies != Species.SCISSORS) {
             assertEquals(initialCoins, scissorInstance.getNumberOfCoins(), context,

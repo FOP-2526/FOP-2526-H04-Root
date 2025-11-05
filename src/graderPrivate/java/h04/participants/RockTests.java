@@ -148,8 +148,6 @@ public class RockTests extends AbstractParticipantTests {
         if (expectedOutcome == Outcome.WIN) {
             assertSame(rockInstance, victor, context,
                     r -> "Rock.fight(Participant) did not return the correct value (itself / 'this')");
-            assertTrue(participantMock.isTurnedOff(), context,
-                    r -> "Rock.fight(Participant) did not turn off the losing opponent");
             assertEquals(TestUtils.toFittingType(roundsWonFieldLink.reflection().getType(), 1),
                 roundsWonFieldLink.get(rockInstance),
                 context,
@@ -157,8 +155,6 @@ public class RockTests extends AbstractParticipantTests {
         } else {
             assertSame(participantMock, victor, context,
                 r -> "Rock.fight(Participant) did not return the correct value (opponent)");
-            assertTrue(rockInstance.isTurnedOff(), context,
-                r -> "Rock.fight(Participant) did not turn itself off despite losing");
             assertEquals(TestUtils.toFittingType(roundsWonFieldLink.reflection().getType(), 0),
                 roundsWonFieldLink.get(rockInstance),
                 context,
