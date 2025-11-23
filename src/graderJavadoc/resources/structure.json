@@ -1,0 +1,85 @@
+[
+  {
+    "type": "class",
+    "typeName": "h04.Main",
+    "declaredConstructors": [
+      {"name": "h04.Main", "parameters": ""}
+    ],
+    "declaredMethods": [
+      {"name": "main", "parameters": "java.lang.String[]"}
+    ]
+  },
+  {
+    "type": "class",
+    "typeName": "h04.Referee",
+    "declaredConstructors": [
+      {"name": "h04.Referee", "parameters": "h04.participants.Species[]"}
+    ],
+    "declaredMethods": [
+      {"name": "hostTournament", "parameters": ""},
+      {"name": "setLineUp", "parameters": "h04.participants.Species[]"}
+    ]
+  },
+  {
+    "type": "class",
+    "typeName": "h04.Utils",
+    "declaredConstructors": [
+      {"name": "h04.Utils", "parameters": ""}
+    ],
+    "declaredMethods": [
+      {"name": "getParticipantInFrontOf", "parameters": "fopbot.Robot"}
+    ]
+  },
+  {
+    "type": "enum",
+    "typeName": "h04.participants.Species",
+    "declaredConstructors": [],
+    "declaredMethods": []
+  },
+  {
+    "type": "class",
+    "typeName": "h04.participants.Participant",
+    "declaredConstructors": [
+      {"name": "h04.participants.Participant", "parameters": "h04.participants.Species, int, int, fopbot.Direction"}
+    ],
+    "declaredMethods": [
+      {"name": "doVictoryDance", "parameters": ""},
+      {"name": "fight", "parameters": "h04.participants.Participant"},
+      {"name": "getOrientation", "parameters": ""},
+      {"name": "getSpecies", "parameters": ""}
+    ]
+  },
+  {
+    "type": "class",
+    "typeName": "h04.participants.Paper",
+    "declaredConstructors": [
+      {"name": "h04.participants.Paper", "parameters": "int, int"}
+    ],
+    "declaredMethods": [
+      {"name": "doVictoryDance", "parameters": ""},
+      {"name": "fight", "parameters": "h04.participants.Participant"}
+    ]
+  },
+  {
+    "type": "class",
+    "typeName": "h04.participants.Rock",
+    "declaredConstructors": [
+      {"name": "h04.participants.Rock", "parameters": "int, int"}
+    ],
+    "declaredMethods": [
+      {"name": "doVictoryDance", "parameters": ""},
+      {"name": "fight", "parameters": "h04.participants.Participant"}
+    ]
+  },
+  {
+    "type": "class",
+    "typeName": "h04.participants.Scissors",
+    "declaredConstructors": [
+      {"name": "h04.participants.Scissors", "parameters": "int, int"}
+    ],
+    "declaredMethods": [
+      {"name": "doVictoryDance", "parameters": ""},
+      {"name": "fight", "parameters": "h04.participants.Participant"}
+    ]
+  }
+]

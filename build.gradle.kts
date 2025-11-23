@@ -39,5 +39,10 @@ jagr {
             graderName.set("FOP-2526-H04-Private")
             rubricProviderName.set("h04.H04_RubricProviderPrivate")
         }
+        val graderJavadoc by creating {
+            parent(graderPublic)
+            graderName.set("FOP-2526-H04-Javadoc")
+            rubricProviderName.set("h04.H04_RubricProviderJavadoc")
+        }
     }
 }
