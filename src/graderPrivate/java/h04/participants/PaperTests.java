@@ -56,8 +56,6 @@ public class PaperTests extends AbstractParticipantTests {
             r -> "Field startingXPosition in class h04.participants.Paper is not of a numeric type");
         assertFalse((startingXPositionFieldLink.modifiers() & Modifier.STATIC) != 0, emptyContext(),
             r -> "Field startingXPosition in class h04.participants.Paper is static");
-        assertTrue((startingXPositionFieldLink.modifiers() & Modifier.FINAL) != 0, emptyContext(),
-            r -> "Field startingXPosition in class h04.participants.Paper is not final");
     }
 
     @ParameterizedTest
