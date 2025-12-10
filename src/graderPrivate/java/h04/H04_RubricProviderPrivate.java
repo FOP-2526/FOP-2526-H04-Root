@@ -1,10 +1,16 @@
 package h04;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import h04.participants.PaperTests;
 import h04.participants.RockTests;
 import h04.participants.ScissorsTests;
 import org.sourcegrade.jagr.api.rubric.*;
 import org.sourcegrade.jagr.api.testing.RubricConfiguration;
+import org.sourcegrade.jagr.api.testing.TestCycle;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import static org.tudalgo.algoutils.tutor.general.jagr.RubricUtils.criterion;
 
@@ -159,8 +165,7 @@ public class H04_RubricProviderPrivate implements RubricProvider {
             .shortDescription("Die Dokumentation entspricht den Vorgaben.")
             .minPoints(0)
             .maxPoints(3)
-            .grader((testCycle, criterion) -> GradeResult.of(0, 3,
-                "This criterion will be graded manually"))
+            .grader(H04_RubricProviderPrivate::getDocumentationGrader)
             .build())
         .build();
 
@@ -178,5 +183,18 @@ public class H04_RubricProviderPrivate implements RubricProvider {
     public void configure(RubricConfiguration configuration) {
         RubricProvider.super.configure(configuration);
         configuration.addTransformer(new AccessTransformer());
+    }
+
+    private static GradeResult getDocumentationGrader(TestCycle testCycle, Criterion criterion) {
+        String tuId = testCycle.getSubmission().getInfo().split("_")[1].toLowerCase();
+        try (InputStream is = H04_RubricProviderPrivate.class.getResourceAsStream("/docResults/%s.json".formatted(tuId))) {
+            JsonNode root = new ObjectMapper().readTree(is);
+            int points = root.get("totalPoints").asInt();
+            String feedback = root.get("feedbackComment").asText();
+            return GradeResult.of(points, points, feedback);
+        } catch (Exception e) {
+            return GradeResult.of(0, 0,
+                "Unable to find feedback for documentation, possibly because no documentation was written");
+        }
     }
 }
